@@ -44,7 +44,7 @@ public class BlockCore extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int action, float hitX, float hitY, float hitZ) {
         TileCore tile = (TileCore) world.getTileEntity(x, y, z);
-        if(!world.isRemote && !tile.isUsing) {
+        if(!world.isRemote && !tile.isUsing()) {
             tile.setUsing(true);
             System.out.println(tile.getName());
             if(tile.getName().equals("null")) {

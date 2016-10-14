@@ -29,36 +29,46 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
 
     public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
 
+    @Override
     public UUID getLord() {
         return lord;
     }
 
+    @Override
     public void setLord(UUID lord) {
         this.lord = lord;
     }
 
+    @Override
     public UUID getUuid() {
         return uuid;
     }
 
+    @Override
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public int getLevel() { return level; }
 
+    @Override
     public void setLevel(int level) { this.level = level; }
 
+    @Override
     public UUID getMembers(int i) { return members.get(i); }
 
+    @Override
     public void addMembers(UUID player) { this.members.add(player); }
 
     private UUID uuid;
