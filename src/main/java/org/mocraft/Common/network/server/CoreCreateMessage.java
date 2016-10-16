@@ -5,13 +5,10 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import org.mocraft.AgeOfKingdom;
 import org.mocraft.Block.TileCore;
 import org.mocraft.Common.network.client.AbstractClientMessageManager;
-import org.mocraft.Common.network.common.SyncIEEPMessage;
 
 import java.util.UUID;
 

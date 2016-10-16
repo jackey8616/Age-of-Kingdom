@@ -1,8 +1,5 @@
 package org.mocraft.Common;
 
-import net.minecraft.nbt.NBTTagCompound;
-
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**
