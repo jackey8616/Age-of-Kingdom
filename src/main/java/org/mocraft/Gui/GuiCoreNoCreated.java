@@ -19,12 +19,10 @@ public class GuiCoreNoCreated extends GuiContainer {
     }
 
     @Override
-    public void initGui() {
-
-    }
+    public void initGui() {  }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
         this.drawString(fontRendererObj, "Create", 10, 10, 0xFFFFFF);
     }
 }

@@ -27,8 +27,6 @@ import java.util.UUID;
  */
 public class ClientCore implements IExtendedEntityProperties, ICore {
 
-    public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
-
     @Override
     public UUID getLord() {
         return lord;
@@ -71,17 +69,52 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
     @Override
     public void addMembers(UUID player) { this.members.add(player); }
 
+    @Override
+    public void setX(int x) { this.x = x; }
+
+    @Override
+    public int getX() { return this.x; }
+
+    @Override
+    public void setY(int y) { this.y = y; }
+
+    @Override
+    public int getY() { return this.y; }
+
+    @Override
+    public void setZ(int z) { this.z = z; }
+
+    @Override
+    public int getZ() { return this.z; }
+
+    public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
+
     private UUID uuid;
     private UUID lord;
     private String name;
     private int level;
     private ArrayList<UUID> members = new ArrayList<UUID>();
+    private int x, y, z;
 
     public ClientCore() {
         this.uuid = this.lord = new UUID(0L, 0L);
         this.name = "null";
-        this.level = 0;
+        this.level = -1;
         this.addMembers(new UUID(5L, 5L));
+        this.x = this.y = this.z = 0;
+    }
+
+    public ClientCore(UUID uuid, UUID lord, String name, int level, UUID[] members, int x, int y, int z) {
+        this.uuid = uuid;
+        this.lord = lord;
+        this.name = name;
+        this.level = level;
+        for(UUID id : members) {
+            this.members.add(id);
+        }
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public ClientCore(NBTTagCompound compound) {
@@ -108,6 +141,9 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
             memberList.appendTag(new NBTTagString(id.toString()));
         }
         tmp.setTag("Members", memberList);
+        tmp.setInteger("X", this.x);
+        tmp.setInteger("Y", this.y);
+        tmp.setInteger("Z", this.z);
 
         compound.setTag(PROP_NAME, tmp);
     }
@@ -125,6 +161,9 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
             for(int i = 0; i < memberList.tagCount(); ++i) {
                 members.add(UUID.fromString(memberList.getStringTagAt(i)));
             }
+            this.x = tmp.getInteger("X");
+            this.y = tmp.getInteger("Y");
+            this.z = tmp.getInteger("Z");
         }
     }
 

@@ -29,4 +29,17 @@ public interface ICore {
     UUID getMembers(int i);
 
     void addMembers(UUID player);
+
+    void setX(int x);
+
+    int getX();
+
+    void setY(int y);
+
+    int getY();
+
+    void setZ(int z);
+
+    int getZ();
+
 }
