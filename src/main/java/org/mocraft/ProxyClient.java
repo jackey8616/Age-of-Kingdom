@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import org.mocraft.Common.KeyManager;
 
 /**
@@ -16,9 +17,7 @@ public class ProxyClient extends ProxyServer {
     public KeyManager keyManager = new KeyManager();
 
     @Override
-    public EntityPlayer getPlayerEntity(MessageContext ctx) {
-        return Minecraft.getMinecraft().thePlayer;
-    }
+    public EntityPlayer getPlayerEntity(MessageContext ctx) { return Minecraft.getMinecraft().thePlayer; }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {}

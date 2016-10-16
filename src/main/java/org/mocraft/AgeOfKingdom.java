@@ -8,7 +8,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.common.registry.GameRegistry;
 import org.mocraft.Block.BlockManager;
+import org.mocraft.Common.BlockGenerator;
 import org.mocraft.Common.ClientCore;
 import org.mocraft.Common.network.PacketManager;
 
@@ -29,6 +31,7 @@ public class AgeOfKingdom  {
 
     public static BlockManager blockManager = new BlockManager();
     public static PacketManager packetManager = new PacketManager();
+    public static BlockGenerator blockGenerator = new BlockGenerator();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -40,6 +43,7 @@ public class AgeOfKingdom  {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, serverProxy);
+        GameRegistry.registerWorldGenerator(blockGenerator, 0);
 
         serverProxy.init(event);
         blockManager.init(event);

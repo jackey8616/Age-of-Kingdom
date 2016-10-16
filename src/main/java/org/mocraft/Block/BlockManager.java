@@ -10,12 +10,12 @@ import net.minecraft.block.material.Material;
  */
 public class BlockManager {
 
-    public static Block blockCore;
+    public static Block blockCore = new BlockCore("blockCore", Material.rock);
 
     public BlockManager() {}
 
     public void init(FMLInitializationEvent event) {
-        GameRegistry.registerBlock(blockCore = new BlockCore("blockCore", Material.rock), "blockCore");
+        GameRegistry.registerBlock(blockCore, "blockCore");
         GameRegistry.registerTileEntity(TileCore.class, "tileCore");
     }
 

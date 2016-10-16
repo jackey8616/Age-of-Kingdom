@@ -3,6 +3,7 @@ package org.mocraft.Common.network.client;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import org.mocraft.Common.network.common.AbstractMessageManager;
 
 /**
@@ -10,7 +11,7 @@ import org.mocraft.Common.network.common.AbstractMessageManager;
  */
 public abstract class AbstractClientMessageManager<T extends IMessage> extends AbstractMessageManager<T> {
 
-    public final IMessage handleServerMessage(EntityPlayer player, T message, MessageContext ctx) {
+    public final IMessage messageFromServer(EntityPlayer player, T message, MessageContext ctx) {
         return null;
     }
 

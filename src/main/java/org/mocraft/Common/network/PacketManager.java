@@ -4,9 +4,12 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.network.common.SyncIEEPMessage;
+import org.mocraft.Common.network.server.CoreCreateMessage;
+import tv.twitch.Core;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -18,6 +21,7 @@ public class PacketManager {
     public void preInit(FMLPreInitializationEvent event) {
         AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.CLIENT);
         AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.SERVER);
+        AgeOfKingdom.channel.registerMessage(CoreCreateMessage.Handler.class, CoreCreateMessage.class, packetId++, Side.SERVER);
     }
 
     public static final void sendTo(IMessage message, EntityPlayerMP player) {

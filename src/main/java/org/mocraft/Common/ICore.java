@@ -14,6 +14,10 @@ public interface ICore {
 
     void setLord(UUID lord);
 
+    int getLordLevel();
+
+    void setLordLevel(int level);
+
     UUID getUuid();
 
     void setUuid(UUID uuid);

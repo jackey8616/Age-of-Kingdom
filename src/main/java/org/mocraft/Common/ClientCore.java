@@ -4,7 +4,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -36,6 +35,12 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
     public void setLord(UUID lord) {
         this.lord = lord;
     }
+
+    @Override
+    public int getLordLevel() { return this.lordLevel; }
+
+    @Override
+    public void setLordLevel(int level) { this.lordLevel = level; }
 
     @Override
     public UUID getUuid() {
@@ -91,6 +96,7 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
 
     private UUID uuid;
     private UUID lord;
+    private int lordLevel;
     private String name;
     private int level;
     private ArrayList<UUID> members = new ArrayList<UUID>();
@@ -98,6 +104,7 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
 
     public ClientCore() {
         this.uuid = this.lord = new UUID(0L, 0L);
+        this.lordLevel = 0;
         this.name = "null";
         this.level = -1;
         this.addMembers(new UUID(5L, 5L));
@@ -134,6 +141,7 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
 
         tmp.setString("UUID", this.uuid.toString());
         tmp.setString("Lord", this.lord.toString());
+        tmp.setInteger("LordLevel", this.lordLevel);
         tmp.setString("Name", this.name);
         tmp.setInteger("Level", this.level);
         NBTTagList memberList = new NBTTagList();
@@ -155,6 +163,7 @@ public class ClientCore implements IExtendedEntityProperties, ICore {
 
             this.uuid = UUID.fromString(tmp.getString("UUID"));
             this.lord = UUID.fromString(tmp.getString("Lord"));
+            this.lordLevel = tmp.getInteger("LordLevel");
             this.name = tmp.getString("Name");
             this.level = tmp.getInteger("Level");
             NBTTagList memberList = tmp.getTagList("Members", Constants.NBT.TAG_LIST);

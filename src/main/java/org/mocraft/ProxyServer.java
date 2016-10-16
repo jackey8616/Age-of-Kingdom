@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import org.mocraft.Block.TileCore;
@@ -51,7 +52,7 @@ public class ProxyServer implements IGuiHandler {
         switch (ID) {
             case GUI_AOK: return new GuiAok(player, ClientCore.get(player));
             case GUI_CORE: return new GuiCore(((TileCore)world.getTileEntity(x, y, z)));
-            case GUI_CORE_NO_CREATED: return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z));
+            case GUI_CORE_NO_CREATED: return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z), player);
         }
         return null;
     }
