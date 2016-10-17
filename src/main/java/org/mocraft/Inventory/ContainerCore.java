@@ -1,8 +1,8 @@
-package org.mocraft.Gui;
+package org.mocraft.Inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import org.mocraft.Block.TileCore;
+import org.mocraft.TileEntity.TileCore;
 
 /**
  * Created by Clode on 2016/10/11.

@@ -3,7 +3,8 @@ package org.mocraft.Gui;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import org.mocraft.Block.TileCore;
+import org.mocraft.Inventory.ContainerCore;
+import org.mocraft.TileEntity.TileCore;
 
 /**
  * Created by Clode on 2016/10/11.

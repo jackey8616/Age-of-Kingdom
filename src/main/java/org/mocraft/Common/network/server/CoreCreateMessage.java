@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import org.mocraft.Block.TileCore;
+import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.network.client.AbstractClientMessageManager;
 
 import java.util.UUID;

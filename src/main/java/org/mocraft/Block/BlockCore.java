@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.TileEntity.TileCore;
 
 /**
  * Created by Clode on 2016/10/10.

@@ -7,7 +7,8 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Block.TileCore;
+import org.mocraft.Inventory.ContainerCore;
+import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.network.server.CoreCreateMessage;
 
 /**

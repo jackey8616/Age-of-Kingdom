@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.network.PacketManager;
 import org.mocraft.Common.network.common.SyncIEEPMessage;
+import org.mocraft.Utils.ICore;
 
 import java.util.ArrayList;
 import java.util.UUID;

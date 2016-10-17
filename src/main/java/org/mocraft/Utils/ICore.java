@@ -1,4 +1,4 @@
-package org.mocraft.Common;
+package org.mocraft.Utils;
 
 import java.util.UUID;
 

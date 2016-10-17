@@ -1,4 +1,4 @@
-package org.mocraft.Block;
+package org.mocraft.TileEntity;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
