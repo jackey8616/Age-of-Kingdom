@@ -11,7 +11,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import org.mocraft.Block.BlockManager;
 import org.mocraft.Common.BlockGenerator;
-import org.mocraft.Common.ClientCore;
+import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.network.PacketManager;
 
 @Mod(modid = AgeOfKingdom.MODID, name = AgeOfKingdom.NAME, version = AgeOfKingdom.VERSION)
@@ -47,7 +47,7 @@ public class AgeOfKingdom  {
 
         serverProxy.init(event);
         blockManager.init(event);
-        ClientCore.init();
+        ClientAok.init();
     }
 
     @EventHandler

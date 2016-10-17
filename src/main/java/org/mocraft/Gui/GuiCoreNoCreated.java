@@ -10,6 +10,7 @@ import org.mocraft.AgeOfKingdom;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.network.server.CoreCreateMessage;
+import org.mocraft.Utils.BlockPos;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -73,7 +74,7 @@ public class GuiCoreNoCreated extends GuiContainer {
         switch(button.id) {
             case 0: {
                 if(!this.txtVillageName.getText().equals("")) {
-                    AgeOfKingdom.channel.sendToServer(new CoreCreateMessage(this.txtVillageName.getText(), player.getUniqueID(), this.tile.xCoord, this.tile.yCoord, this.tile.zCoord));
+                    AgeOfKingdom.channel.sendToServer(new CoreCreateMessage(this.txtVillageName.getText(), player.getUniqueID(), new BlockPos(this.tile.xCoord, this.tile.yCoord, this.tile.zCoord)));
                 }
                 break;
             }

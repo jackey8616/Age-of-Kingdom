@@ -2,7 +2,7 @@ package org.mocraft.Gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import org.mocraft.Common.ClientCore;
+import org.mocraft.Common.ClientAok;
 
 /**
  * Created by Clode on 2016/10/12.
@@ -10,9 +10,9 @@ import org.mocraft.Common.ClientCore;
 public class GuiAok extends GuiScreen {
 
     private EntityPlayer player;
-    private ClientCore ieep;
+    private ClientAok ieep;
 
-    public GuiAok(EntityPlayer player, ClientCore ieep) {
+    public GuiAok(EntityPlayer player, ClientAok ieep) {
         this.player = player;
         this.ieep = ieep;
     }
@@ -21,6 +21,7 @@ public class GuiAok extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float particalTick) {
         super.drawScreen(mouseX, mouseY, particalTick);
         this.drawDefaultBackground();
+        /**
         if(ieep.getName().equals("null")) {
             this.drawString(fontRendererObj, "Non Kingdom", this.width / 2, this.height / 2, 0xffffff);
         } else {
@@ -28,7 +29,6 @@ public class GuiAok extends GuiScreen {
             this.drawString(fontRendererObj, "Lord : " + ieep.getLord().toString(), 10, 20, 0xffffff);
             this.drawString(fontRendererObj, "Name : " + ieep.getName(), 10, 30, 0xffffff);
             this.drawString(fontRendererObj, "Level: " + String.valueOf(ieep.getLevel()), 10, 40, 0xffffff);
-        }
+         **/
     }
-
 }

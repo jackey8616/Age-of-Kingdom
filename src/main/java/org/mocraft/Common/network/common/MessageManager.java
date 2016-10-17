@@ -11,7 +11,7 @@ import org.mocraft.AgeOfKingdom;
 /**
  * Created by Clode on 2016/10/12.
  */
-public abstract class AbstractMessageManager<T extends IMessage> implements IMessageHandler<T, IMessage> {
+public abstract class MessageManager<T extends IMessage> implements IMessageHandler<T, IMessage> {
 
     @SideOnly(Side.CLIENT)
     public abstract IMessage messageFromServer(EntityPlayer player, T message, MessageContext ctx);
@@ -21,10 +21,10 @@ public abstract class AbstractMessageManager<T extends IMessage> implements IMes
 
     @Override
     public IMessage onMessage(T message, MessageContext ctx) {
-        if (ctx.side.isClient()) {
-            return messageFromServer(AgeOfKingdom.serverProxy.getPlayerEntity(ctx), message, ctx);
-        } else {
+        if (ctx.side.isServer()) {
             return messageFromClient(AgeOfKingdom.serverProxy.getPlayerEntity(ctx), message, ctx);
+        } else {
+            return messageFromServer(AgeOfKingdom.serverProxy.getPlayerEntity(ctx), message, ctx);
         }
     }
 }

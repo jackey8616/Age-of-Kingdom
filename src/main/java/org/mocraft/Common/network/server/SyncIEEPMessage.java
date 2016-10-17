@@ -1,4 +1,4 @@
-package org.mocraft.Common.network.common;
+package org.mocraft.Common.network.server;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -6,7 +6,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import org.mocraft.Common.ClientCore;
+import org.mocraft.Common.ClientAok;
+import org.mocraft.Common.network.client.ServerMessageManager;
 
 /**
  * Created by Clode on 2016/10/12.
@@ -19,7 +20,11 @@ public class SyncIEEPMessage implements IMessage {
 
     public SyncIEEPMessage(EntityPlayer player) {
         data = new NBTTagCompound();
-        ClientCore.get(player).saveNBTData(data);
+        ClientAok.get(player).saveNBTData(data);
+    }
+
+    public SyncIEEPMessage(NBTTagCompound compound) {
+        data = compound;
     }
 
     @Override
@@ -32,20 +37,17 @@ public class SyncIEEPMessage implements IMessage {
         ByteBufUtils.writeTag(buf, data);
     }
 
-    public static class Handler extends AbstractMessageManager<SyncIEEPMessage> {
+    public static class Handler extends ServerMessageManager<SyncIEEPMessage> {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, SyncIEEPMessage message, MessageContext ctx) {
             System.out.println("Client recieve Server");
-            System.out.println(message.data);
-            player.registerExtendedProperties(ClientCore.PROP_NAME, new ClientCore(message.data));
-            return null;
-        }
 
-        @Override
-        public IMessage messageFromClient(EntityPlayer player, SyncIEEPMessage message, MessageContext ctx) {
-            System.out.println("Server Recieved Client");
-            System.out.println(message.data);
+            if(player.getExtendedProperties(ClientAok.PROP_NAME) != null) {
+                ClientAok.get(player).loadNBTData(message.data);
+            } else {
+                player.registerExtendedProperties(ClientAok.PROP_NAME, new ClientAok(message.data));
+            }
             return null;
         }
     }

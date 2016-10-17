@@ -7,8 +7,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import org.mocraft.Common.ClientAok;
+import org.mocraft.Common.network.PacketManager;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Common.network.client.AbstractClientMessageManager;
+import org.mocraft.Utils.BlockPos;
 
 import java.util.UUID;
 
@@ -17,17 +19,15 @@ import java.util.UUID;
  */
 public class CoreCreateMessage implements IMessage {
 
-    private NBTTagCompound data;
+    private NBTTagCompound  data;
 
     public CoreCreateMessage() {  }
 
-    public CoreCreateMessage(String name, UUID lord, int x, int y, int z) {
+    public CoreCreateMessage(String name, UUID lord, BlockPos blockPos) {
         this.data = new NBTTagCompound();
-        this.data.setString("Name", name);
         this.data.setString("Lord", lord.toString());
-        this.data.setInteger("X", x);
-        this.data.setInteger("Y", y);
-        this.data.setInteger("Z", z);
+        this.data.setString("Name", name);
+        blockPos.saveNBTData(this.data);
     }
 
     @Override
@@ -36,21 +36,36 @@ public class CoreCreateMessage implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) { ByteBufUtils.writeTag(buf, data); }
 
-    public static class Handler extends AbstractClientMessageManager<CoreCreateMessage> {
+    public static class Handler extends ClientMessageManager<CoreCreateMessage> {
 
         @Override
         public IMessage messageFromClient(EntityPlayer player, CoreCreateMessage message, MessageContext ctx) {
-            NBTTagCompound data = message.data;
-            UUID lord = UUID.fromString(data.getString("Lord"));
-            String name = data.getString("Name");
-            int x = data.getInteger("X");
-            int y = data.getInteger("Y");
-            int z = data.getInteger("Z");
-            TileCore coreTile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(x, y, z);
-            coreTile.onCreate(lord, name);
+            BlockPos landPos = new BlockPos(message.data);
+            TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
+            core.setName(message.data.getString("Name"));
+            core.setLord(UUID.fromString(message.data.getString("Lord")));
+            core.addMembers(core.getLord());
             player.closeScreen();
-            //AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(player), player);
 
+            ClientAok clientAok = ((ClientAok)player.getExtendedProperties(ClientAok.PROP_NAME));
+            clientAok.setLandPos(landPos);
+            NBTTagCompound compound = new NBTTagCompound();
+            clientAok.saveNBTData(compound);
+            PacketManager.sendTo(new SyncIEEPMessage(compound), player);
+
+            /**
+                UUID lord = UUID.fromString(message.data.getString("Lord"));
+                String name = message.data.getString("Name");
+                int x = message.data.getInteger("X");
+                int y = message.data.getInteger("Y");
+                int z = message.data.getInteger("Z");
+                TileCore coreTile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(x, y, z);
+                coreTile.onCreate(lord, name);
+                player.closeScreen();
+                ClientAok.get(player).loadData(UUID.randomUUID(), lord, 0, name, 0, new UUID[] {lord}, x, y, z);
+                System.out.println(message.data);
+                PacketManager.sendTo(new SyncIEEPMessage(message.data), player);
+             **/
             return null;
         }
 

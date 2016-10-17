@@ -1,10 +1,14 @@
 package org.mocraft.TileEntity;
 
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,26 +19,16 @@ import java.util.UUID;
 public class TileCore extends TileEntity {
 
     private boolean isUsing = false;
-    private UUID uuid;
     private UUID lord;
-    private int lordLevel;
     private String name;
-    private int level;
+    private int aokLevel;
     private ArrayList<UUID> members = new ArrayList<UUID>();
 
     public TileCore() {
         this.isUsing = false;
         this.lord = new UUID(0L, 0L);
         this.name = "null";
-    }
-
-    public void onCreate(UUID lord, String name) {
-        this.uuid = UUID.randomUUID();
-        this.lord = lord;
-        this.lordLevel = this.level = 1;
-        this.name = name;
-        this.members.add(lord);
-        updateEntity();
+        this.aokLevel = 0;
     }
 
     @Override
@@ -49,8 +43,13 @@ public class TileCore extends TileEntity {
 
         compound.setBoolean("Using", isUsing);
         compound.setString("Lord", lord.toString());
-        compound.setInteger("LordLevel", lordLevel);
         compound.setString("Name", name);
+        compound.setInteger("AokLevel", aokLevel);
+        NBTTagList memberList = new NBTTagList();
+        for(UUID member : members) {
+            memberList.appendTag(new NBTTagString(member.toString()));
+        }
+        compound.setTag("Members", memberList);
     }
 
     @Override
@@ -59,8 +58,12 @@ public class TileCore extends TileEntity {
 
         this.isUsing = compound.getBoolean("Using");
         this.lord = UUID.fromString(compound.getString("Lord"));
-        this.lordLevel = compound.getInteger("LordLevel");
         this.name = compound.getString("Name");
+        this.aokLevel = compound.getInteger("AokLevel");
+        NBTTagList memberList = compound.getTagList("Members", Constants.NBT.TAG_LIST);
+        for(int i = 0; i < memberList.tagCount(); ++i) {
+            this.members.add(UUID.fromString(memberList.getStringTagAt(i)));
+        }
     }
 
     @Override
@@ -92,16 +95,6 @@ public class TileCore extends TileEntity {
         this.lord = lord;
     }
 
-    public int getLordLevel() { return this.lordLevel; }
-
-    public void setLordLevel(int level) { this.lordLevel = level; }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) { this.uuid = uuid; }
-
     public String getName() {
         return name;
     }
@@ -109,10 +102,6 @@ public class TileCore extends TileEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getLevel() { return level; }
-
-    public void setLevel(int level) { this.level = level; }
 
     public UUID getMembers(int i) { return members.get(i); }
 
