@@ -1,6 +1,7 @@
 package org.mocraft.Common;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,12 +26,16 @@ public class ClientAok implements IExtendedEntityProperties {
 
     public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
 
+    private EntityPlayer player;
     private int lordLevel = 0;
     private BlockPos landPos = new BlockPos(0, 0, 0);
 
-    public ClientAok() {  }
+    public ClientAok(EntityPlayer player) {
+        this.player = player;
+    }
 
-    public ClientAok(NBTTagCompound compound) {
+    public ClientAok(NBTTagCompound compound, EntityPlayer player) {
+        this.player = player;
         loadNBTData(compound);
     }
 
@@ -38,7 +43,7 @@ public class ClientAok implements IExtendedEntityProperties {
         MinecraftForge.EVENT_BUS.register(new Handler());
     }
 
-    public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok()); }
+    public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok(player)); }
     public static final ClientAok get(EntityPlayer p) { return (ClientAok) p.getExtendedProperties(PROP_NAME); }
 
     @Override
@@ -47,7 +52,7 @@ public class ClientAok implements IExtendedEntityProperties {
 
         tmp.setInteger("LordLevel", this.lordLevel);
         landPos.saveNBTData(tmp);
-
+        System.out.println(compound);
         compound.setTag(PROP_NAME, tmp);
     }
 
@@ -98,6 +103,13 @@ public class ClientAok implements IExtendedEntityProperties {
                 ((ClientAok) e.entity.getExtendedProperties(ClientAok.PROP_NAME)).saveNBTData(compound);
                 AgeOfKingdom.serverProxy.setPlayerClientCore(((EntityPlayer)e.entity).getUniqueID(), compound);
             }
+        }
+
+        @SubscribeEvent
+        public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent e) {
+            NBTTagCompound compound = new NBTTagCompound();
+            e.player.getExtendedProperties(PROP_NAME).saveNBTData(compound);
+            e.player.getEntityData().setTag(PROP_NAME, compound);
         }
     }
 }

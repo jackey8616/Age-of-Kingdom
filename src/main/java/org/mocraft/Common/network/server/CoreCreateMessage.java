@@ -47,25 +47,12 @@ public class CoreCreateMessage implements IMessage {
             core.addMembers(core.getLord());
             player.closeScreen();
 
-            ClientAok clientAok = ((ClientAok)player.getExtendedProperties(ClientAok.PROP_NAME));
+            ClientAok clientAok = ClientAok.get(player);
             clientAok.setLandPos(landPos);
             NBTTagCompound compound = new NBTTagCompound();
             clientAok.saveNBTData(compound);
+            clientAok.saveNBTData(player.getEntityData());
             PacketManager.sendTo(new SyncIEEPMessage(compound), player);
-
-            /**
-                UUID lord = UUID.fromString(message.data.getString("Lord"));
-                String name = message.data.getString("Name");
-                int x = message.data.getInteger("X");
-                int y = message.data.getInteger("Y");
-                int z = message.data.getInteger("Z");
-                TileCore coreTile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(x, y, z);
-                coreTile.onCreate(lord, name);
-                player.closeScreen();
-                ClientAok.get(player).loadData(UUID.randomUUID(), lord, 0, name, 0, new UUID[] {lord}, x, y, z);
-                System.out.println(message.data);
-                PacketManager.sendTo(new SyncIEEPMessage(message.data), player);
-             **/
             return null;
         }
 

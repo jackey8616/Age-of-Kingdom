@@ -46,7 +46,7 @@ public class SyncIEEPMessage implements IMessage {
             if(player.getExtendedProperties(ClientAok.PROP_NAME) != null) {
                 ClientAok.get(player).loadNBTData(message.data);
             } else {
-                player.registerExtendedProperties(ClientAok.PROP_NAME, new ClientAok(message.data));
+                player.registerExtendedProperties(ClientAok.PROP_NAME, new ClientAok(message.data, player));
             }
             return null;
         }
