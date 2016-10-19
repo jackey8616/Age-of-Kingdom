@@ -1,5 +1,6 @@
 package org.mocraft.Common;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,6 @@ import org.mocraft.Utils.BlockPos;
  */
 public class ClientAok implements IExtendedEntityProperties {
 
-
     public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
 
     private EntityPlayer player;
@@ -40,7 +40,9 @@ public class ClientAok implements IExtendedEntityProperties {
     }
 
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(new Handler());
+        Handler h = new Handler();
+        MinecraftForge.EVENT_BUS.register(h);
+        FMLCommonHandler.instance().bus().register(h);
     }
 
     public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok(player)); }
@@ -51,8 +53,7 @@ public class ClientAok implements IExtendedEntityProperties {
         NBTTagCompound tmp = new NBTTagCompound();
 
         tmp.setInteger("LordLevel", this.lordLevel);
-        landPos.saveNBTData(tmp);
-        System.out.println(compound);
+        this.landPos.saveNBTData(tmp);
         compound.setTag(PROP_NAME, tmp);
     }
 
@@ -85,7 +86,7 @@ public class ClientAok implements IExtendedEntityProperties {
                 register((EntityPlayer) e.entity);
             }
         }
-
+        /**
         @SubscribeEvent
         public void onEntityJoinEvent(EntityJoinWorldEvent e) {
             if(e.entity instanceof EntityPlayer && !e.entity.worldObj.isRemote) {
@@ -104,12 +105,6 @@ public class ClientAok implements IExtendedEntityProperties {
                 AgeOfKingdom.serverProxy.setPlayerClientCore(((EntityPlayer)e.entity).getUniqueID(), compound);
             }
         }
-
-        @SubscribeEvent
-        public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent e) {
-            NBTTagCompound compound = new NBTTagCompound();
-            e.player.getExtendedProperties(PROP_NAME).saveNBTData(compound);
-            e.player.getEntityData().setTag(PROP_NAME, compound);
-        }
+**/
     }
 }

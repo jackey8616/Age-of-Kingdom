@@ -51,7 +51,6 @@ public class CoreCreateMessage implements IMessage {
             clientAok.setLandPos(landPos);
             NBTTagCompound compound = new NBTTagCompound();
             clientAok.saveNBTData(compound);
-            clientAok.saveNBTData(player.getEntityData());
             PacketManager.sendTo(new SyncIEEPMessage(compound), player);
             return null;
         }
