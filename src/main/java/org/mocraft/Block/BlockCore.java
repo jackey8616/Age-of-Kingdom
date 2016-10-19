@@ -47,7 +47,6 @@ public class BlockCore extends Block implements ITileEntityProvider {
         TileCore tile = (TileCore) world.getTileEntity(x, y, z);
         if(!world.isRemote && !tile.isUsing()) {
             tile.setUsing(true);
-            System.out.println(tile.getName());
             if(tile.getName().equals("null")) {
                 player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_CORE_NO_CREATED, world, x, y, z);
             } else {

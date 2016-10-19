@@ -20,6 +20,13 @@ public class BlockPos {
         this.z = z;
     }
 
+    public boolean equals(BlockPos compare) {
+        if(this.x == compare.getX() && this.y == compare.getY() && this.z == compare.getZ()) {
+            return true;
+        }
+        return false;
+    }
+
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound tmp = new NBTTagCompound();
         tmp.setInteger("X", this.x);

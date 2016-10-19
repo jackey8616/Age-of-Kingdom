@@ -103,7 +103,13 @@ public class TileCore extends TileEntity {
         this.name = name;
     }
 
-    public UUID getMembers(int i) { return members.get(i); }
+    public int getAokLevel() { return this.aokLevel; }
+
+    public void setAokLevel(int aokLevel) { this.aokLevel = aokLevel; }
+
+    public ArrayList<UUID> getMembers() { return this.members; }
+
+    public UUID getMembersAtIndex(int i) { return this.members.get(i); }
 
     public void addMembers(UUID player) { this.members.add(player); }
 }

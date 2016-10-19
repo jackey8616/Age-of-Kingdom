@@ -7,6 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.network.PacketManager;
 import org.mocraft.TileEntity.TileCore;
@@ -52,6 +53,8 @@ public class CoreCreateMessage implements IMessage {
             NBTTagCompound compound = new NBTTagCompound();
             clientAok.saveNBTData(compound);
             PacketManager.sendTo(new SyncIEEPMessage(compound), player);
+            PacketManager.sendTo(new GuiAokMessage(player, clientAok.getLandPos()), player);
+            //player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
             return null;
         }
 

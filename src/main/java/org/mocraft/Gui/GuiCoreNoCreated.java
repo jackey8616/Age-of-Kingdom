@@ -79,7 +79,8 @@ public class GuiCoreNoCreated extends GuiContainer {
                 break;
             }
             case 1: {
-
+                this.txtVillageName.setText("");
+                player.closeScreen();
                 break;
             }
         }

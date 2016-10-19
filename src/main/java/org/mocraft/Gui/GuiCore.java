@@ -22,6 +22,7 @@ public class GuiCore extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         this.drawString(fontRendererObj, tile.getName() + "X", 10, 10, 0xffffff);
+
     }
 
     @Override

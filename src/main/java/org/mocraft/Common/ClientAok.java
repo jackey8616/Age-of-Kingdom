@@ -7,6 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,10 +16,14 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import org.apache.commons.codec.language.bm.Rule;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.network.PacketManager;
 import org.mocraft.Common.network.server.SyncIEEPMessage;
 import org.mocraft.Utils.BlockPos;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -26,9 +32,15 @@ public class ClientAok implements IExtendedEntityProperties {
 
     public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
 
+    // Personal Information
     private EntityPlayer player;
     private int lordLevel = 0;
     private BlockPos landPos = new BlockPos(0, 0, 0);
+    // Global Data From Server
+    private String lordName = "null";
+    private String aokName = "null";
+    private int aokLevel = 0;
+    private ArrayList<UUID> members = new ArrayList<UUID>();
 
     public ClientAok(EntityPlayer player) {
         this.player = player;
@@ -46,7 +58,12 @@ public class ClientAok implements IExtendedEntityProperties {
     }
 
     public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok(player)); }
-    public static final ClientAok get(EntityPlayer p) { return (ClientAok) p.getExtendedProperties(PROP_NAME); }
+    public static final ClientAok get(EntityPlayer player) {
+        if(player.getExtendedProperties(PROP_NAME) == null) {
+            player.registerExtendedProperties(PROP_NAME, new ClientAok(player));
+        }
+        return (ClientAok) player.getExtendedProperties(PROP_NAME);
+    }
 
     @Override
     public void saveNBTData(NBTTagCompound compound) {
@@ -54,6 +71,14 @@ public class ClientAok implements IExtendedEntityProperties {
 
         tmp.setInteger("LordLevel", this.lordLevel);
         this.landPos.saveNBTData(tmp);
+        tmp.setString("LordName", this.lordName);
+        tmp.setString("AokName", this.aokName);
+        tmp.setInteger("aokLevel", this.aokLevel);
+        NBTTagList list = new NBTTagList();
+        for(UUID member : members) {
+            list.appendTag(new NBTTagString(member.toString()));
+        }
+        tmp.setTag("Members", list);
         compound.setTag(PROP_NAME, tmp);
     }
 
@@ -64,6 +89,13 @@ public class ClientAok implements IExtendedEntityProperties {
 
             this.lordLevel = tmp.getInteger("LordLevel");
             this.landPos.loadNBTData(tmp);
+            this.lordName = tmp.getString("LordName");
+            this.aokName = tmp.getString("AokName");
+            this.aokLevel = tmp.getInteger("AokLevel");
+            NBTTagList list = tmp.getTagList("Members", Constants.NBT.TAG_LIST);
+            for(int i = 0; i < list.tagCount(); ++i) {
+                members.add(UUID.fromString(list.getStringTagAt(i)));
+            }
         }
     }
 
@@ -78,6 +110,26 @@ public class ClientAok implements IExtendedEntityProperties {
 
     public void setLandPos(BlockPos landPos) { this.landPos = landPos; }
 
+    public EntityPlayer getPlayer() { return player; }
+
+    public void setPlayer(EntityPlayer player) { this.player = player; }
+
+    public String getLordName() { return lordName; }
+
+    public void setLordName(String lordName) { this.lordName = lordName; }
+
+    public String getAokName() { return aokName; }
+
+    public void setAokName(String aokName) { this.aokName = aokName; }
+
+    public int getAokLevel() { return aokLevel; }
+
+    public void setAokLevel(int aokLevel) { this.aokLevel = aokLevel; }
+
+    public ArrayList<UUID> getMembers() { return members; }
+
+    public void setMembers(ArrayList<UUID> members) { this.members = members; }
+
     public static class Handler {
 
         @SubscribeEvent
@@ -86,7 +138,7 @@ public class ClientAok implements IExtendedEntityProperties {
                 register((EntityPlayer) e.entity);
             }
         }
-        /**
+
         @SubscribeEvent
         public void onEntityJoinEvent(EntityJoinWorldEvent e) {
             if(e.entity instanceof EntityPlayer && !e.entity.worldObj.isRemote) {
@@ -105,6 +157,5 @@ public class ClientAok implements IExtendedEntityProperties {
                 AgeOfKingdom.serverProxy.setPlayerClientCore(((EntityPlayer)e.entity).getUniqueID(), compound);
             }
         }
-**/
     }
 }
