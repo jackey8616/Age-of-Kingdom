@@ -23,10 +23,6 @@ public class SyncIEEPMessage implements IMessage {
         ClientAok.get(player).saveNBTData(data);
     }
 
-    public SyncIEEPMessage(NBTTagCompound compound) {
-        data = compound;
-    }
-
     @Override
     public void fromBytes(ByteBuf buf) {
         this.data = ByteBufUtils.readTag(buf);
@@ -43,11 +39,8 @@ public class SyncIEEPMessage implements IMessage {
         public IMessage messageFromServer(EntityPlayer player, SyncIEEPMessage message, MessageContext ctx) {
             System.out.println("Client recieve Server");
 
-            if(player.getExtendedProperties(ClientAok.PROP_NAME) != null) {
-                ClientAok.get(player).loadNBTData(message.data);
-            } else {
-                player.registerExtendedProperties(ClientAok.PROP_NAME, new ClientAok(message.data, player));
-            }
+            ClientAok clientAok = ClientAok.get(player);
+            clientAok.loadNBTData(message.data);
             return null;
         }
     }

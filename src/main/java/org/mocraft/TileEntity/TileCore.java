@@ -9,6 +9,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import org.mocraft.AgeOfKingdom;
+import org.mocraft.Common.ClientAok;
+import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -29,6 +32,14 @@ public class TileCore extends TileEntity {
         this.lord = new UUID(0L, 0L);
         this.name = "null";
         this.aokLevel = 0;
+    }
+
+    public void insertToClientAok(ClientAok clientAok) {
+        clientAok.setLandPos(new BlockPos(xCoord, yCoord, zCoord));
+        clientAok.setLordName(AgeOfKingdom.serverProxy.getPlayerByUuid(this.lord).getDisplayName());
+        clientAok.setAokName(this.name);
+        clientAok.setAokLevel(this.aokLevel);
+        clientAok.setMembers(this.members);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class PacketManager {
     private static byte packetId = 0;
 
     public void preInit(FMLPreInitializationEvent event) {
-        AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.SERVER);
+        AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.CLIENT);
         AgeOfKingdom.channel.registerMessage(CoreCreateMessage.Handler.class, CoreCreateMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.CLIENT);

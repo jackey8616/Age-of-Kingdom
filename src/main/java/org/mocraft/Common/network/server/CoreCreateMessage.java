@@ -46,15 +46,12 @@ public class CoreCreateMessage implements IMessage {
             core.setName(message.data.getString("Name"));
             core.setLord(UUID.fromString(message.data.getString("Lord")));
             core.addMembers(core.getLord());
+            core.insertToClientAok(ClientAok.get(player));
             player.closeScreen();
 
-            ClientAok clientAok = ClientAok.get(player);
-            clientAok.setLandPos(landPos);
-            NBTTagCompound compound = new NBTTagCompound();
-            clientAok.saveNBTData(compound);
-            PacketManager.sendTo(new SyncIEEPMessage(compound), player);
-            PacketManager.sendTo(new GuiAokMessage(player, clientAok.getLandPos()), player);
-            //player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
+            PacketManager.sendTo(new SyncIEEPMessage(player), player);
+            //PacketManager.sendTo(new GuiAokMessage(player, clientAok.getLandPos()), player);
+            //PacketManager.sendTo(new GuiAokMessage(), player);
             return null;
         }
 

@@ -30,6 +30,10 @@ public class GuiAokMessage implements IMessage {
 
     public GuiAokMessage() {  }
 
+    public GuiAokMessage(EntityPlayer player) {
+        PacketManager.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
+    }
+
     public GuiAokMessage(EntityPlayer player, BlockPos blockPos) {
         TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         BlockPos landPos = new BlockPos(core.xCoord, core.yCoord, core.zCoord);
@@ -58,15 +62,17 @@ public class GuiAokMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiAokMessage message, MessageContext ctx) {
+
             ClientAok clientAok = ClientAok.get(player);
             clientAok.getLandPos().loadNBTData(message.data);
             clientAok.setLordName(message.data.getString("Lord"));
             clientAok.setAokName(message.data.getString("Name"));
             clientAok.setAokLevel(message.data.getInteger("Level"));
-            NBTTagList list = message.data.getTagList("Members", Constants.NBT.TAG_LIST);
+            NBTTagList list = (NBTTagList) message.data.getTag("Members");
             for(int i = 0; i < list.tagCount(); ++i) {
                 clientAok.getMembers().add(UUID.fromString(list.getStringTagAt(i)));
             }
+
             player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
             return null;
         }

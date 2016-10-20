@@ -76,7 +76,7 @@ public class ClientAok implements IExtendedEntityProperties {
         tmp.setString("AokName", this.aokName);
         tmp.setInteger("aokLevel", this.aokLevel);
         NBTTagList list = new NBTTagList();
-        for(UUID member : members) {
+        for(UUID member : this.members) {
             list.appendTag(new NBTTagString(member.toString()));
         }
         tmp.setTag("Members", list);
@@ -95,7 +95,7 @@ public class ClientAok implements IExtendedEntityProperties {
             this.aokLevel = tmp.getInteger("AokLevel");
             NBTTagList list = tmp.getTagList("Members", Constants.NBT.TAG_LIST);
             for(int i = 0; i < list.tagCount(); ++i) {
-                members.add(UUID.fromString(list.getStringTagAt(i)));
+                this.members.add(UUID.fromString(list.getStringTagAt(i)));
             }
         }
     }
@@ -130,6 +130,8 @@ public class ClientAok implements IExtendedEntityProperties {
     public ArrayList<UUID> getMembers() { return members; }
 
     public void setMembers(ArrayList<UUID> members) { this.members = members; }
+
+    public void addMember(UUID uuid) { this.members.add(uuid); }
 
     public static class Handler {
 
