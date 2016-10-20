@@ -1,4 +1,4 @@
-package org.mocraft.Common.network.server;
+package org.mocraft.Common.network.common;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -10,12 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.network.PacketManager;
-import org.mocraft.Common.network.client.ServerMessageManager;
-import org.mocraft.Common.network.common.MessageManager;
+import org.mocraft.Common.network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
 

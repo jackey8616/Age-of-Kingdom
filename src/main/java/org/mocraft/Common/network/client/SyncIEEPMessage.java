@@ -1,4 +1,4 @@
-package org.mocraft.Common.network.server;
+package org.mocraft.Common.network.client;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -7,7 +7,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import org.mocraft.Common.ClientAok;
-import org.mocraft.Common.network.client.ServerMessageManager;
 
 /**
  * Created by Clode on 2016/10/12.

@@ -12,9 +12,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.network.PacketManager;
-import org.mocraft.Common.network.server.GuiAokMessage;
+import org.mocraft.Common.network.common.GuiAokMessage;
 
 /**
  * Created by Clode on 2016/10/12.

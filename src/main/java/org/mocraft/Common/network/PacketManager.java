@@ -8,10 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.network.server.GuiAokMessage;
-import org.mocraft.Common.network.server.SyncIEEPMessage;
+import org.mocraft.Common.network.common.GuiAokMessage;
+import org.mocraft.Common.network.client.SyncIEEPMessage;
 import org.mocraft.Common.network.server.CoreCreateMessage;
-import org.mocraft.Gui.GuiAok;
 
 /**
  * Created by Clode on 2016/10/11.

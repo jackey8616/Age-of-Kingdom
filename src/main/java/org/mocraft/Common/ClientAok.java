@@ -2,7 +2,6 @@ package org.mocraft.Common;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,10 +15,9 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import org.apache.commons.codec.language.bm.Rule;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.network.PacketManager;
-import org.mocraft.Common.network.server.SyncIEEPMessage;
+import org.mocraft.Common.network.client.SyncIEEPMessage;
 import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;

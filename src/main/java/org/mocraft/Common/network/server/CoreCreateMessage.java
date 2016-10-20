@@ -7,9 +7,9 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.network.PacketManager;
+import org.mocraft.Common.network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
 
@@ -50,8 +50,6 @@ public class CoreCreateMessage implements IMessage {
             player.closeScreen();
 
             PacketManager.sendTo(new SyncIEEPMessage(player), player);
-            //PacketManager.sendTo(new GuiAokMessage(player, clientAok.getLandPos()), player);
-            //PacketManager.sendTo(new GuiAokMessage(), player);
             return null;
         }
 
