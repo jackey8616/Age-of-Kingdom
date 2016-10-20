@@ -24,6 +24,7 @@ public class PacketManager {
         AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(CoreCreateMessage.Handler.class, CoreCreateMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.SERVER);
+        AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.CLIENT);
     }
 
     public static final void sendTo(IMessage message, EntityPlayer player) {

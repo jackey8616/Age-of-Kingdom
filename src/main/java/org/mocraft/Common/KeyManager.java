@@ -13,6 +13,8 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.Common.network.PacketManager;
+import org.mocraft.Common.network.server.GuiAokMessage;
 
 /**
  * Created by Clode on 2016/10/12.
@@ -37,7 +39,8 @@ public class KeyManager {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
         if(keys[0].isPressed()) {
-            player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, world, (int)player.posX, (int)player.posY, (int)player.posZ);
+            //player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, world, (int)player.posX, (int)player.posY, (int)player.posZ);
+            PacketManager.sendToServer(new GuiAokMessage());
         }
     }
 

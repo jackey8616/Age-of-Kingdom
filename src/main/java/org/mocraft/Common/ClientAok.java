@@ -58,6 +58,7 @@ public class ClientAok implements IExtendedEntityProperties {
     }
 
     public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok(player)); }
+
     public static final ClientAok get(EntityPlayer player) {
         if(player.getExtendedProperties(PROP_NAME) == null) {
             player.registerExtendedProperties(PROP_NAME, new ClientAok(player));
