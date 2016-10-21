@@ -39,6 +39,13 @@ public class TileCore extends TileEntity {
         this.aokLevel = 0;
     }
 
+    public boolean hasPlayer(UUID uuid) {
+        for(UUID member : members) {
+            if(member.equals(uuid)) return true;
+        }
+        return false;
+    }
+
     public void insertToClientAok(ClientAok clientAok) {
         clientAok.setLandPos(new BlockPos(xCoord, yCoord, zCoord));
         clientAok.setLordName(getLordName());

@@ -5,6 +5,7 @@ package org.mocraft.Utils;
  */
 public class Util {
 
+    public static final int CREATE_AOK_MIN_LEVEL = 30;
     public static final int LAND_MIN_DISTANCE = 200;
 
 }

@@ -1,9 +1,9 @@
-package org.mocraft.Common.network.server;
+package org.mocraft.Network.server;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.entity.player.EntityPlayer;
-import org.mocraft.Common.network.common.MessageManager;
+import org.mocraft.Network.common.MessageManager;
 
 /**
  * Created by Clode on 2016/10/12.

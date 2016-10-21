@@ -5,9 +5,12 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.Common.ClientAok;
 import org.mocraft.TileEntity.TileCore;
 
 /**
@@ -46,6 +49,14 @@ public class BlockCore extends Block implements ITileEntityProvider {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int action, float hitX, float hitY, float hitZ) {
         TileCore tile = (TileCore) world.getTileEntity(x, y, z);
         if(!world.isRemote && !tile.isUsing()) {
+            if(!tile.getAokName().equals("null") && !tile.hasPlayer(player.getUniqueID())) {
+                MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("You are not belong this AoK!"));
+                return false;
+            } else if(!ClientAok.get(player).getAokName().equals("null") && !ClientAok.get(player).getAokName().equals(tile.getAokName())) {
+                MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("You already have a AoK!"));
+                return false;
+            }
+
             tile.setUsing(true);
             if(tile.getAokName().equals("null")) {
                 player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_CORE_NO_CREATED, world, x, y, z);

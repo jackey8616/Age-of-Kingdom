@@ -12,7 +12,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import org.mocraft.Block.BlockManager;
 import org.mocraft.Common.BlockGenerator;
 import org.mocraft.Common.ClientAok;
-import org.mocraft.Common.network.PacketManager;
+import org.mocraft.Common.EventManager;
+import org.mocraft.Network.PacketManager;
 
 @Mod(modid = AgeOfKingdom.MODID, name = AgeOfKingdom.NAME, version = AgeOfKingdom.VERSION)
 public class AgeOfKingdom  {
@@ -32,6 +33,7 @@ public class AgeOfKingdom  {
     public static BlockManager blockManager = new BlockManager();
     public static PacketManager packetManager = new PacketManager();
     public static BlockGenerator blockGenerator = new BlockGenerator();
+    public static EventManager eventManager = new EventManager();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -47,6 +49,7 @@ public class AgeOfKingdom  {
 
         serverProxy.init(event);
         blockManager.init(event);
+        eventManager.init(event);
         ClientAok.init();
     }
 

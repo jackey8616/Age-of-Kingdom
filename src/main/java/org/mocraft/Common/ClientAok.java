@@ -16,12 +16,11 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.network.PacketManager;
-import org.mocraft.Common.network.client.SyncIEEPMessage;
+import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by Clode on 2016/10/11.

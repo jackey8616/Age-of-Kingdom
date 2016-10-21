@@ -1,4 +1,4 @@
-package org.mocraft.Common.network.client;
+package org.mocraft.Network.client;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

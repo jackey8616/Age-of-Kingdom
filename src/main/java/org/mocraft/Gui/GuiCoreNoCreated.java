@@ -9,8 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Common.network.server.CoreCreateMessage;
+import org.mocraft.Network.server.CoreCreateMessage;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.Util;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -43,14 +44,14 @@ public class GuiCoreNoCreated extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
         this.drawString(fontRendererObj, "Create A Village", 10, 10, 0xFFFFFF);
-        this.drawString(fontRendererObj, "If you want to create a village, you must have level 30.", 10, 22, 0xFFFFFF);
+        this.drawString(fontRendererObj, "If you want to create a village, you must have level " + Util.CREATE_AOK_MIN_LEVEL + ".", 10, 22, 0xFFFFFF);
 
         this.txtVillageName.drawTextBox();
         for(Object btn : this.buttonList) {
             ((GuiButton)btn).drawButton(mc, mouseX, mouseY);
         }
 
-        if(player.experienceLevel < 30) {
+        if(player.experienceLevel < Util.CREATE_AOK_MIN_LEVEL) {
             this.txtVillageName.setEnabled(false);
             this.btnCreate.enabled = false;
         }
@@ -89,7 +90,7 @@ public class GuiCoreNoCreated extends GuiContainer {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        if(player.experienceLevel >= 30) {
+        if(player.experienceLevel >= Util.CREATE_AOK_MIN_LEVEL) {
             this.txtVillageName.updateCursorCounter();
         }
     }

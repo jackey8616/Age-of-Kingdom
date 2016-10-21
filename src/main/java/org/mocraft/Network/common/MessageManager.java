@@ -1,4 +1,4 @@
-package org.mocraft.Common.network.common;
+package org.mocraft.Network.common;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
