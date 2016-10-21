@@ -24,10 +24,10 @@ public class CoreCreateMessage implements IMessage {
 
     public CoreCreateMessage() {  }
 
-    public CoreCreateMessage(String name, UUID lord, BlockPos blockPos) {
+    public CoreCreateMessage(String aokName, UUID lord, BlockPos blockPos) {
         this.data = new NBTTagCompound();
         this.data.setString("Lord", lord.toString());
-        this.data.setString("Name", name);
+        this.data.setString("AokName", aokName);
         blockPos.saveNBTData(this.data);
     }
 
@@ -43,9 +43,9 @@ public class CoreCreateMessage implements IMessage {
         public IMessage messageFromClient(EntityPlayer player, CoreCreateMessage message, MessageContext ctx) {
             BlockPos landPos = new BlockPos(message.data);
             TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
-            core.setName(message.data.getString("Name"));
+            core.setAokName(message.data.getString("AokName"));
             core.setLord(UUID.fromString(message.data.getString("Lord")));
-            core.addMembers(core.getLord());
+            core.addMember(core.getLord());
             core.insertToClientAok(ClientAok.get(player));
             player.closeScreen();
 

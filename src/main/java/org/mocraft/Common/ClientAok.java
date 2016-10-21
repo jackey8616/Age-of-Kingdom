@@ -38,7 +38,7 @@ public class ClientAok implements IExtendedEntityProperties {
     private String lordName = "null";
     private String aokName = "null";
     private int aokLevel = 0;
-    private ArrayList<UUID> members = new ArrayList<UUID>();
+    private ArrayList<String> members = new ArrayList<String>();
 
     public ClientAok(EntityPlayer player) {
         this.player = player;
@@ -72,10 +72,10 @@ public class ClientAok implements IExtendedEntityProperties {
         this.landPos.saveNBTData(tmp);
         tmp.setString("LordName", this.lordName);
         tmp.setString("AokName", this.aokName);
-        tmp.setInteger("aokLevel", this.aokLevel);
+        tmp.setInteger("AokLevel", this.aokLevel);
         NBTTagList list = new NBTTagList();
-        for(UUID member : this.members) {
-            list.appendTag(new NBTTagString(member.toString()));
+        for(String member : this.members) {
+            list.appendTag(new NBTTagString(member));
         }
         tmp.setTag("Members", list);
         compound.setTag(PROP_NAME, tmp);
@@ -91,9 +91,9 @@ public class ClientAok implements IExtendedEntityProperties {
             this.lordName = tmp.getString("LordName");
             this.aokName = tmp.getString("AokName");
             this.aokLevel = tmp.getInteger("AokLevel");
-            NBTTagList list = tmp.getTagList("Members", Constants.NBT.TAG_LIST);
+            NBTTagList list = (NBTTagList) tmp.getTag("Members");
             for(int i = 0; i < list.tagCount(); ++i) {
-                this.members.add(UUID.fromString(list.getStringTagAt(i)));
+                this.members.add(list.getStringTagAt(i));
             }
         }
     }
@@ -125,11 +125,16 @@ public class ClientAok implements IExtendedEntityProperties {
 
     public void setAokLevel(int aokLevel) { this.aokLevel = aokLevel; }
 
-    public ArrayList<UUID> getMembers() { return members; }
+    public ArrayList<String> getMembers() { return members; }
 
-    public void setMembers(ArrayList<UUID> members) { this.members = members; }
+    public void setMembers(ArrayList<String> members) { this.members = members; }
 
-    public void addMember(UUID uuid) { this.members.add(uuid); }
+    public void addMember(String playerName) {
+        for(String search : members) {
+            if(search.equals(playerName)) { return; }
+        }
+        members.add(playerName);
+    }
 
     public static class Handler {
 

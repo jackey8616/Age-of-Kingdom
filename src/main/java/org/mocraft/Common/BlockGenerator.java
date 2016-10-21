@@ -8,6 +8,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import org.mocraft.Block.BlockManager;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.Util;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,8 +17,6 @@ import java.util.Random;
  * Created by Clode on 2016/10/17.
  */
 public class BlockGenerator implements IWorldGenerator {
-
-    private static final int CORE_MAX_DISTANCE = 200;
 
     private WorldGenerator coreGenerator= new WorldGenMinable(BlockManager.blockCore, 1);
 
@@ -34,7 +33,7 @@ public class BlockGenerator implements IWorldGenerator {
 
                 for(int i = 0; i < ProxyServer.corePos.size(); ++i) {
                     BlockPos bPos = ProxyServer.corePos.get(i);
-                    if(Math.abs(pos.getX() - bPos.getX()) <= CORE_MAX_DISTANCE && Math.abs(pos.getZ() - bPos.getZ()) <=  CORE_MAX_DISTANCE) {
+                    if(Math.abs(pos.getX() - bPos.getX()) <= Util.LAND_MIN_DISTANCE && Math.abs(pos.getZ() - bPos.getZ()) <=  Util.LAND_MIN_DISTANCE) {
                         return;
                     }
                 }

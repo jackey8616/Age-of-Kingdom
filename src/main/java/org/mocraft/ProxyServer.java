@@ -62,7 +62,7 @@ public class ProxyServer implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         switch (ID) {
             case GUI_AOK: return new GuiAok(player);
-            case GUI_CORE: return new GuiCore(((TileCore)world.getTileEntity(x, y, z)));
+            case GUI_CORE: return new GuiCore(((TileCore)world.getTileEntity(x, y, z)), player);
             case GUI_CORE_NO_CREATED: return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z), player);
         }
         return null;

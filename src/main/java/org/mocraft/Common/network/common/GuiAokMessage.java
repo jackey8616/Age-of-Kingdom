@@ -37,11 +37,11 @@ public class GuiAokMessage implements IMessage {
         BlockPos landPos = new BlockPos(core.xCoord, core.yCoord, core.zCoord);
         landPos.saveNBTData(data);
         data.setString("Lord", AgeOfKingdom.serverProxy.getPlayerByUuid(core.getLord()).getDisplayName());
-        data.setString("Name", core.getName());
+        data.setString("Name", core.getAokName());
         data.setInteger("Level", core.getAokLevel());
         NBTTagList list = new NBTTagList();
         for(UUID uuid : core.getMembers()) {
-            list.appendTag(new NBTTagString(uuid.toString()));
+            list.appendTag(new NBTTagString(AgeOfKingdom.serverProxy.getPlayerByUuid(uuid).getDisplayName()));
         }
         data.setTag("Members", list);
     }
@@ -60,7 +60,6 @@ public class GuiAokMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiAokMessage message, MessageContext ctx) {
-
             ClientAok clientAok = ClientAok.get(player);
             clientAok.getLandPos().loadNBTData(message.data);
             clientAok.setLordName(message.data.getString("Lord"));
@@ -68,7 +67,7 @@ public class GuiAokMessage implements IMessage {
             clientAok.setAokLevel(message.data.getInteger("Level"));
             NBTTagList list = (NBTTagList) message.data.getTag("Members");
             for(int i = 0; i < list.tagCount(); ++i) {
-                clientAok.getMembers().add(UUID.fromString(list.getStringTagAt(i)));
+                clientAok.addMember(list.getStringTagAt(i));
             }
 
             player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);

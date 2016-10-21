@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
@@ -23,23 +24,28 @@ public class TileCore extends TileEntity {
 
     private boolean isUsing = false;
     private UUID lord;
-    private String name;
+    private String lordName;
+    private int lordLevel;
+    private String aokName;
     private int aokLevel;
     private ArrayList<UUID> members = new ArrayList<UUID>();
 
     public TileCore() {
         this.isUsing = false;
         this.lord = new UUID(0L, 0L);
-        this.name = "null";
+        this.lordName = "null";
+        this.lordLevel = 0;
+        this.aokName = "null";
         this.aokLevel = 0;
     }
 
     public void insertToClientAok(ClientAok clientAok) {
         clientAok.setLandPos(new BlockPos(xCoord, yCoord, zCoord));
-        clientAok.setLordName(AgeOfKingdom.serverProxy.getPlayerByUuid(this.lord).getDisplayName());
-        clientAok.setAokName(this.name);
+        clientAok.setLordName(getLordName());
+        clientAok.setLordLevel(this.lordLevel);
+        clientAok.setAokName(this.aokName);
         clientAok.setAokLevel(this.aokLevel);
-        clientAok.setMembers(this.members);
+        clientAok.setMembers(toStringArrayList());
     }
 
     @Override
@@ -54,7 +60,9 @@ public class TileCore extends TileEntity {
 
         compound.setBoolean("Using", isUsing);
         compound.setString("Lord", lord.toString());
-        compound.setString("Name", name);
+        compound.setString("LordName", lordName);
+        compound.setInteger("LordLevel", lordLevel);
+        compound.setString("AokName", aokName);
         compound.setInteger("AokLevel", aokLevel);
         NBTTagList memberList = new NBTTagList();
         for(UUID member : members) {
@@ -69,11 +77,13 @@ public class TileCore extends TileEntity {
 
         this.isUsing = compound.getBoolean("Using");
         this.lord = UUID.fromString(compound.getString("Lord"));
-        this.name = compound.getString("Name");
+        this.lordName = compound.getString("LordName");
+        this.lordLevel = compound.getInteger("LordLevel");
+        this.aokName = compound.getString("AokName");
         this.aokLevel = compound.getInteger("AokLevel");
         NBTTagList memberList = compound.getTagList("Members", Constants.NBT.TAG_LIST);
         for(int i = 0; i < memberList.tagCount(); ++i) {
-            this.members.add(UUID.fromString(memberList.getStringTagAt(i)));
+            addMember(UUID.fromString(memberList.getStringTagAt(i)));
         }
     }
 
@@ -98,20 +108,21 @@ public class TileCore extends TileEntity {
         updateEntity();
     }
 
+    public String getLordName() { return this.lordName; }
+
     public UUID getLord() {
         return lord;
     }
 
     public void setLord(UUID lord) {
         this.lord = lord;
+        this.lordName = AgeOfKingdom.serverProxy.getPlayerByUuid(lord).getDisplayName();
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getAokName() { return this.aokName; }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAokName(String name) {
+        this.aokName = name;
     }
 
     public int getAokLevel() { return this.aokLevel; }
@@ -120,7 +131,29 @@ public class TileCore extends TileEntity {
 
     public ArrayList<UUID> getMembers() { return this.members; }
 
-    public UUID getMembersAtIndex(int i) { return this.members.get(i); }
+    public void setMembers(ArrayList<UUID> members) { this.members = members; }
 
-    public void addMembers(UUID player) { this.members.add(player); }
+    public UUID getMemberUuidAtIndex(int i) { return this.members.get(i); }
+
+    public String getMemberNameAtIndex(int i) { return AgeOfKingdom.serverProxy.getPlayerByUuid(this.members.get(i)).getDisplayName(); }
+
+    public void addMember(UUID player) {
+        for(UUID uuid : members) {
+            if(uuid.equals(player)) { return; }
+        }
+        this.members.add(player);
+    }
+
+    public ArrayList<String> toStringArrayList() {
+        ArrayList<String> memberName = new ArrayList<String>();
+        for(UUID member : members) {
+            memberName.add(AgeOfKingdom.serverProxy.getPlayerByUuid(member).getDisplayName());
+        }
+        return memberName;
+    }
+
+    public int getLordLevel() { return lordLevel; }
+
+    public void setLordLevel(int lordLevel) { this.lordLevel = lordLevel; }
+
 }
