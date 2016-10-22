@@ -2,12 +2,16 @@ package org.mocraft.Gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Inventory.ContainerCore;
+import org.mocraft.Network.server.CoreCreateMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.Util;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -15,12 +19,20 @@ import org.mocraft.Utils.BlockPos;
 @SideOnly(Side.CLIENT)
 public class GuiCore extends GuiContainer {
 
+    private int btnId = 0;
+
     private ClientAok clientAok;
     private EntityPlayer player;
+    private GuiButton btnMember;
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
         clientAok = ClientAok.get(player);
+    }
+
+    @Override
+    public void initGui() {
+        this.buttonList.add(btnMember = new GuiButton(btnId++, width - 100 - 10, 60, 100, 10, "Members"));
     }
 
     @Override
@@ -37,10 +49,39 @@ public class GuiCore extends GuiContainer {
             for(int i = 0; i < this.clientAok.getMembers().size(); ++i) {
                 this.drawString(fontRendererObj, this.clientAok.getMembers().get(i), 50 , 60 + i * 12, 0xffffff);
             }
+
+            for(int i = 0; i < buttonList.size(); ++i) {
+                ((GuiButton)buttonList.get(i)).drawButton(mc, mouseX, mouseY);
+            }
+        }
+    }
+
+
+    @Override
+    protected void keyTyped(char c, int keyCode) {
+        super.keyTyped(c, keyCode);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int btnMouse) {
+        super.mouseClicked(mouseX, mouseX, btnMouse);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) {
+        super.actionPerformed(button);
+        switch(button.id) {
+            case 0: {
+
+                break;
+            }
         }
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    public void updateScreen() {
+        super.updateScreen();
     }
+
+
 }

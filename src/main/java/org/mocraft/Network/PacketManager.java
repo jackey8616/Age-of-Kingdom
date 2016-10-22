@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Network.common.GuiAokMessage;
 import org.mocraft.Network.client.SyncIEEPMessage;
+import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.Network.server.CoreCreateMessage;
 
 /**
@@ -22,8 +23,10 @@ public class PacketManager {
     public void preInit(FMLPreInitializationEvent event) {
         AgeOfKingdom.channel.registerMessage(SyncIEEPMessage.Handler.class, SyncIEEPMessage.class, packetId++, Side.CLIENT);
         AgeOfKingdom.channel.registerMessage(CoreCreateMessage.Handler.class, CoreCreateMessage.class, packetId++, Side.SERVER);
-        AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.CLIENT);
+        AgeOfKingdom.channel.registerMessage(GuiAokMessage.Handler.class, GuiAokMessage.class, packetId++, Side.SERVER);
+        AgeOfKingdom.channel.registerMessage(GuiMemberMessage.Handler.class, GuiMemberMessage.class, packetId++, Side.CLIENT);
+        AgeOfKingdom.channel.registerMessage(GuiMemberMessage.Handler.class, GuiMemberMessage.class, packetId++, Side.SERVER);
     }
 
     public static final void sendTo(IMessage message, EntityPlayer player) {

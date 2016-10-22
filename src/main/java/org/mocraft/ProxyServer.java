@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import org.mocraft.Gui.GuiMember;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Inventory.ContainerCore;
@@ -30,6 +31,7 @@ public class ProxyServer implements IGuiHandler {
     public static final int GUI_AOK = 1;
     public static final int GUI_CORE = 2;
     public static final int GUI_CORE_NO_CREATED = 3;
+    public static final int GUI_MEMBER = 4;
 
     public static final Map<UUID, NBTTagCompound> playerData = new HashMap<UUID, NBTTagCompound>();
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
@@ -51,9 +53,10 @@ public class ProxyServer implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         switch(ID) {
-            case GUI_AOK: return null;
-            case GUI_CORE:
-            case GUI_CORE_NO_CREATED: return new ContainerCore((TileCore)world.getTileEntity(x, y, z));
+            case GUI_AOK : return null;
+            case GUI_CORE :
+            case GUI_CORE_NO_CREATED :
+            case GUI_MEMBER : return new ContainerCore((TileCore)world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -61,9 +64,10 @@ public class ProxyServer implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         switch (ID) {
-            case GUI_AOK: return new GuiAok(player);
-            case GUI_CORE: return new GuiCore(((TileCore)world.getTileEntity(x, y, z)), player);
-            case GUI_CORE_NO_CREATED: return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z), player);
+            case GUI_AOK : return new GuiAok(player);
+            case GUI_CORE : return new GuiCore(((TileCore)world.getTileEntity(x, y, z)), player);
+            case GUI_CORE_NO_CREATED : return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z), player);
+            case GUI_MEMBER : return new GuiMember((TileCore) world.getTileEntity(x, y, z), player);
         }
         return null;
     }
