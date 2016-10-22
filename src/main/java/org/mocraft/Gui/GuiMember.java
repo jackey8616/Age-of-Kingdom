@@ -18,11 +18,13 @@ public class GuiMember extends GuiContainer {
     private int btnId = 0;
 
     private EntityPlayer player;
+    private TileCore tile;
     private GuiTextField txtName;
     private GuiButton btnInvite, btnCancel;
 
     public GuiMember(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
+        this.tile = tile;
         this.player = player;
     }
 
@@ -37,9 +39,12 @@ public class GuiMember extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+        this.txtName.drawTextBox();
 
+        for(Object obj : this.buttonList) {
+            ((GuiButton) obj).drawButton(mc, p_146976_2_, p_146976_3_);
+        }
     }
-
 
     @Override
     protected void keyTyped(char c, int keyCode) {

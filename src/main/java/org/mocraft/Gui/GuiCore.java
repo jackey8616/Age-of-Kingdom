@@ -8,10 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Inventory.ContainerCore;
-import org.mocraft.Network.server.CoreCreateMessage;
+import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.Action;
 import org.mocraft.Utils.BlockPos;
-import org.mocraft.Utils.Util;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -27,16 +27,18 @@ public class GuiCore extends GuiContainer {
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
-        clientAok = ClientAok.get(player);
+        this.player = player;
+        this.clientAok = ClientAok.get(player);
     }
 
     @Override
     public void initGui() {
-        this.buttonList.add(btnMember = new GuiButton(btnId++, width - 100 - 10, 60, 100, 10, "Members"));
+        this.buttonList.add(this.btnMember = new GuiButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    public void drawScreen(int mouseX, int mouseY, float tick) {
+        super.drawScreen(mouseX, mouseY, tick);
         if(this.clientAok.getLandPos().equals(new BlockPos(0, 0, 0)) && this.clientAok.getLordLevel() == 0) {
             this.drawString(fontRendererObj, "Non Kingdom", this.width / 2, this.height / 2, 0xffffff);
         } else {
@@ -50,29 +52,35 @@ public class GuiCore extends GuiContainer {
                 this.drawString(fontRendererObj, this.clientAok.getMembers().get(i), 50 , 60 + i * 12, 0xffffff);
             }
 
-            for(int i = 0; i < buttonList.size(); ++i) {
-                ((GuiButton)buttonList.get(i)).drawButton(mc, mouseX, mouseY);
+            for(Object btn : this.buttonList) {
+                ((GuiButton)btn).drawButton(mc, mouseX, mouseY);
             }
         }
     }
 
+    @Override
+    public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) { }
 
     @Override
-    protected void keyTyped(char c, int keyCode) {
+    public void keyTyped(char c, int keyCode) {
         super.keyTyped(c, keyCode);
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int btnMouse) {
+    public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
+        if(mouseX > this.btnMember.xPosition && mouseX < this.btnMember.xPosition + this.btnMember.width) {
+            if(mouseY > this.btnMember.yPosition && mouseY < this.btnMember.yPosition + this.btnMember.height) {
+                actionPerformed(this.btnMember);
+            }
+        }
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
-        super.actionPerformed(button);
+    public void actionPerformed(GuiButton button) {
         switch(button.id) {
             case 0: {
-
+                AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, Action.REQUEST_OPEN_GUI));
                 break;
             }
         }

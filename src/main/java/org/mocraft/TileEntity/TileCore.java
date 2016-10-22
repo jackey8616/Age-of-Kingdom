@@ -72,7 +72,7 @@ public class TileCore extends TileEntity {
         compound.setString("AokName", aokName);
         compound.setInteger("AokLevel", aokLevel);
         NBTTagList memberList = new NBTTagList();
-        for(UUID member : members) {
+        for (UUID member : members) {
             memberList.appendTag(new NBTTagString(member.toString()));
         }
         compound.setTag("Members", memberList);
@@ -88,7 +88,7 @@ public class TileCore extends TileEntity {
         this.lordLevel = compound.getInteger("LordLevel");
         this.aokName = compound.getString("AokName");
         this.aokLevel = compound.getInteger("AokLevel");
-        NBTTagList memberList = compound.getTagList("Members", Constants.NBT.TAG_LIST);
+        NBTTagList memberList = (NBTTagList) compound.getTag("Members");
         for(int i = 0; i < memberList.tagCount(); ++i) {
             addMember(UUID.fromString(memberList.getStringTagAt(i)));
         }
@@ -107,11 +107,11 @@ public class TileCore extends TileEntity {
     }
 
     public boolean isUsing() {
-        return isUsing;
+        return this.isUsing;
     }
 
     public void setUsing(boolean using) {
-        isUsing = using;
+        this.isUsing = using;
         updateEntity();
     }
 
