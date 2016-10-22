@@ -3,10 +3,11 @@ package org.mocraft.Gui;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Gui.vanilla.GuiAokButton;
+import org.mocraft.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
@@ -17,13 +18,13 @@ import org.mocraft.Utils.BlockPos;
  * Created by Clode on 2016/10/11.
  */
 @SideOnly(Side.CLIENT)
-public class GuiCore extends GuiContainer {
+public class GuiCore extends GuiAokContainer {
 
     private int btnId = 0;
 
     private ClientAok clientAok;
     private EntityPlayer player;
-    private GuiButton btnMember;
+    private GuiAokButton btnMember;
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
@@ -33,12 +34,11 @@ public class GuiCore extends GuiContainer {
 
     @Override
     public void initGui() {
-        this.buttonList.add(this.btnMember = new GuiButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
+        this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float tick) {
-        super.drawScreen(mouseX, mouseY, tick);
+    public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if(this.clientAok.getLandPos().equals(new BlockPos(0, 0, 0)) && this.clientAok.getLordLevel() == 0) {
             this.drawString(fontRendererObj, "Non Kingdom", this.width / 2, this.height / 2, 0xffffff);
         } else {
@@ -59,9 +59,6 @@ public class GuiCore extends GuiContainer {
     }
 
     @Override
-    public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) { }
-
-    @Override
     public void keyTyped(char c, int keyCode) {
         super.keyTyped(c, keyCode);
     }
@@ -69,11 +66,7 @@ public class GuiCore extends GuiContainer {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
-        if(mouseX > this.btnMember.xPosition && mouseX < this.btnMember.xPosition + this.btnMember.width) {
-            if(mouseY > this.btnMember.yPosition && mouseY < this.btnMember.yPosition + this.btnMember.height) {
-                actionPerformed(this.btnMember);
-            }
-        }
+        this.btnMember.mouseClicked(this, mouseX, mouseY, btnMouse);
     }
 
     @Override

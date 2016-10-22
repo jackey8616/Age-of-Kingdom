@@ -20,6 +20,10 @@ public class ContainerCore extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer player) {
-        this.tile.setUsing(false);
+        if(tile != null) {
+            this.tile.setUsing(false);
+        } else {
+            System.out.println("TileEntityNullException : " + tile);
+        }
     }
 }

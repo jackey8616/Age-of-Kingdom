@@ -4,8 +4,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import org.mocraft.Gui.vanilla.GuiAokButton;
+import org.mocraft.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
 
@@ -13,14 +14,14 @@ import org.mocraft.TileEntity.TileCore;
  * Created by Clode on 2016/10/22.
  */
 @SideOnly(Side.CLIENT)
-public class GuiMember extends GuiContainer {
+public class GuiMember extends GuiAokContainer {
 
     private int btnId = 0;
 
     private EntityPlayer player;
     private TileCore tile;
     private GuiTextField txtName;
-    private GuiButton btnInvite, btnCancel;
+    private GuiAokButton btnInvite, btnKick, btnCancel;
 
     public GuiMember(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
@@ -33,8 +34,9 @@ public class GuiMember extends GuiContainer {
         this.txtName = new GuiTextField(fontRendererObj, 10, 40, 100, 20);
         this.txtName.setFocused(true);
 
-        this.buttonList.add(btnInvite = new GuiButton(btnId++, 10, 60, 100, 20, "Invite"));
-        this.buttonList.add(btnCancel = new GuiButton(btnId++, 10 + 100, 60, 100, 20, "Cancel"));
+        this.buttonList.add(btnInvite = new GuiAokButton(btnId++, 10, 60, 100, 20, "Invite"));
+        this.buttonList.add(btnKick = new GuiAokButton(btnId++, 10 + 100, 60, 100, 20, "Kick"));
+        this.buttonList.add(btnCancel = new GuiAokButton(btnId++, 10 + 200, 60, 100, 20, "Cancel"));
     }
 
     @Override
@@ -53,14 +55,15 @@ public class GuiMember extends GuiContainer {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int btnMouse) {
+    public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
         this.txtName.mouseClicked(mouseX, mouseY, btnMouse);
+        this.btnInvite.mouseClicked(this, mouseX, mouseY, btnMouse);
+        this.btnKick.mouseClicked(this, mouseX, mouseY, btnMouse);
+        this.btnCancel.mouseClicked(this, mouseX, mouseY, btnMouse);
     }
 
-    @Override
-    protected void actionPerformed(GuiButton button) {
-        super.actionPerformed(button);
+    public void actionPerformed(GuiButton button) {
     }
 
     @Override

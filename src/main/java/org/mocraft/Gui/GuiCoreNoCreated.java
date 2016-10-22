@@ -4,9 +4,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.Gui.vanilla.GuiAokButton;
+import org.mocraft.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Network.server.CoreCreateMessage;
@@ -17,14 +18,14 @@ import org.mocraft.Utils.Util;
  * Created by Clode on 2016/10/11.
  */
 @SideOnly(Side.CLIENT)
-public class GuiCoreNoCreated extends GuiContainer {
+public class GuiCoreNoCreated extends GuiAokContainer {
 
     int btnId = 0;
 
     private EntityPlayer player;
     private TileCore tile;
     private GuiTextField txtName;
-    private GuiButton btnCreate, btnCancel;
+    private GuiAokButton btnCreate, btnCancel;
 
     public GuiCoreNoCreated(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
@@ -37,8 +38,8 @@ public class GuiCoreNoCreated extends GuiContainer {
         this.txtName = new GuiTextField(fontRendererObj, 10, 40, 100, 20);
         this.txtName.setFocused(true);
 
-        this.buttonList.add(this.btnCreate = new GuiButton(btnId++, 10, 70, 100, 20, "Create"));
-        this.buttonList.add(this.btnCancel = new GuiButton(btnId++, 10 + 100, 70, 100, 20, "Cancel"));
+        this.buttonList.add(this.btnCreate = new GuiAokButton(btnId++, 10, 70, 100, 20, "Create"));
+        this.buttonList.add(this.btnCancel = new GuiAokButton(btnId++, 10 + 100, 70, 100, 20, "Cancel"));
     }
 
     @Override
@@ -64,26 +65,20 @@ public class GuiCoreNoCreated extends GuiContainer {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int btnMouse) {
+    public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
         this.txtName.mouseClicked(mouseX, mouseY, btnMouse);
-        if(mouseX > this.btnCreate.xPosition && mouseX < this.btnCreate.xPosition + this.btnCreate.width) {
-            if(mouseY > this.btnCreate.yPosition && mouseY < this.btnCreate.yPosition + this.btnCreate.height) {
-                actionPerformed(this.btnCreate);
-            }
-        } else if(mouseX > this.btnCancel.xPosition && mouseX < this.btnCancel.xPosition + this.btnCancel.width) {
-            if(mouseY > this.btnCancel.yPosition && mouseY < this.btnCancel.yPosition + this.btnCancel.height) {
-                actionPerformed(this.btnCancel);
-            }
-        }
+        this.btnCreate.mouseClicked(this, mouseX, mouseY, btnMouse);
+        this.btnCancel.mouseClicked(this, mouseX, mouseY, btnMouse);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
+    public void actionPerformed(GuiButton button) {
         switch(button.id) {
             case 0: {
                 if(!this.txtName.getText().equals("")) {
                     AgeOfKingdom.channel.sendToServer(new CoreCreateMessage(this.txtName.getText(), player.getUniqueID(), new BlockPos(this.tile.xCoord, this.tile.yCoord, this.tile.zCoord)));
+                    this.btnCreate.enabled = false;
                 }
                 break;
             }

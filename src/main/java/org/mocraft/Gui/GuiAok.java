@@ -1,14 +1,14 @@
 package org.mocraft.Gui;
 
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Gui.vanilla.GuiAokScreen;
 import org.mocraft.Utils.BlockPos;
 
 /**
  * Created by Clode on 2016/10/12.
  */
-public class GuiAok extends GuiScreen {
+public class GuiAok extends GuiAokScreen {
 
     private EntityPlayer player;
     private ClientAok ieep;

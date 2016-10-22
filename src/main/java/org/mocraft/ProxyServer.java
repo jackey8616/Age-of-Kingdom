@@ -52,29 +52,31 @@ public class ProxyServer implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+
         switch(ID) {
             case GUI_AOK : return null;
             case GUI_CORE :
-            case GUI_CORE_NO_CREATED :
+            case GUI_CORE_NO_CREATED : return new ContainerCore((TileCore) world.getTileEntity(x, y, z));
             case GUI_MEMBER : {
                 BlockPos pos = ClientAok.get(player).getLandPos();
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-                return new ContainerCore(tile); }
+                return new ContainerCore(tile);
+            }
         }
         return null;
     }
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+
         switch (ID) {
             case GUI_AOK : return new GuiAok(player);
             case GUI_CORE : return new GuiCore(((TileCore)world.getTileEntity(x, y, z)), player);
-            case GUI_CORE_NO_CREATED : return new GuiCoreNoCreated((TileCore)world.getTileEntity(x, y, z), player);
+            case GUI_CORE_NO_CREATED : return new GuiCoreNoCreated((TileCore) world.getTileEntity(x, y, z), player);
             case GUI_MEMBER : {
                 BlockPos pos = ClientAok.get(player).getLandPos();
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-                return new GuiMember(tile, player);
-            }
+                return new GuiMember(tile, player); }
         }
         return null;
     }
