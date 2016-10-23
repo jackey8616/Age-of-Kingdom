@@ -81,6 +81,15 @@ public class GuiMember extends GuiAokContainer {
                     AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), Action.INVITE_MEMBER));
                 break;
             }
+            case 1: {
+                if(!this.txtName.getText().equals(""))
+                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), Action.KICK_PLAYER));
+                break;
+            }
+            case 2: {
+                player.closeScreen();
+                break;
+            }
         }
     }
 

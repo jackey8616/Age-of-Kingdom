@@ -15,6 +15,7 @@ import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Gui.GuiInvitation;
 import org.mocraft.Gui.GuiMember;
+import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.Action;
 import org.mocraft.Utils.BlockPos;
@@ -30,7 +31,7 @@ public class GuiMemberMessage implements IMessage {
 
     public GuiMemberMessage() {  }
 
-    public GuiMemberMessage(EntityPlayer player, String invite, Action action) {
+    public GuiMemberMessage(EntityPlayer player, String name, Action action) {
         data.setInteger("Action", action.getValue());
         switch(action) {
             case SEND_MEMBER: {
@@ -45,9 +46,9 @@ public class GuiMemberMessage implements IMessage {
             }
             case REQUEST_OPEN_GUI: break;
             case RECIEVED_MEMBER: break;
-            case INVITE_MEMBER: data.setString("InvitationTo", invite); break;
+            case INVITE_MEMBER: data.setString("InvitationTo", name); break;
             case INVITATION_FROM: {
-                EntityPlayer inviter = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(invite);
+                EntityPlayer inviter = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(name);
                 BlockPos landPos = ClientAok.get(inviter).getLandPos();
                 TileCore tile = (TileCore) inviter.getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                 data.setString("AokName", tile.getAokName());
@@ -55,12 +56,13 @@ public class GuiMemberMessage implements IMessage {
                 data.setString("LordName", tile.getLordName());
                 data.setInteger("LordLevel", tile.getLordLevel());
                 landPos.saveNBTData(data);
-                data.setString("InvitationFrom", invite);
+                data.setString("InvitationFrom", name);
                 break;
             }
             case PLAYER_OFFLINE: break;
             case PLAYER_ACCEPT:
-            case PLAYER_DENIED: data.setString("ReplyTo", invite); break;
+            case PLAYER_DENIED: data.setString("ReplyTo", name); break;
+            case KICK_PLAYER: data.setString("Kick", name); break;
         }
     }
 
@@ -108,9 +110,13 @@ public class GuiMemberMessage implements IMessage {
                 case REQUEST_OPEN_GUI:
                     AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Action.SEND_MEMBER), (EntityPlayerMP) player);
                     break;
-                case RECIEVED_MEMBER:
+                case RECIEVED_MEMBER: {
                     player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_MEMBER, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
+                    BlockPos landPos = ClientAok.get(player).getLandPos();
+                    TileCore tile = (TileCore) player.getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
+                    tile.setUsing(true);
                     break;
+                }
                 case INVITE_MEMBER:
                     EntityPlayer invitationTo = player.getEntityWorld().getPlayerEntityByName(message.data.getString("InvitationTo"));
                     if(invitationTo == null) {
@@ -119,15 +125,32 @@ public class GuiMemberMessage implements IMessage {
                         AgeOfKingdom.channel.sendTo(new GuiMemberMessage(invitationTo, player.getDisplayName(), Action.INVITATION_FROM), (EntityPlayerMP) invitationTo);
                     }
                     break;
-                case PLAYER_ACCEPT:
+                case PLAYER_ACCEPT: {
                     ClientAok clientInviter = ClientAok.get(MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.data.getString("ReplyTo")));
                     TileCore tile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(clientInviter.getLandPos().getX(), clientInviter.getLandPos().getY(), clientInviter.getLandPos().getZ());
                     tile.addMember(player.getPersistentID());
                     tile.syncToAll();
-                case PLAYER_DENIED:
+                }
+                case PLAYER_DENIED: {
                     EntityPlayer replyTo = player.getEntityWorld().getPlayerEntityByName(message.data.getString("ReplyTo"));
                     AgeOfKingdom.channel.sendTo(new GuiMemberMessage(replyTo, player.getDisplayName(), Action.fromInteger(message.data.getInteger("Action"))), (EntityPlayerMP) replyTo);
                     break;
+                }
+                case KICK_PLAYER: {
+                    EntityPlayer beenKicker = player.getEntityWorld().getPlayerEntityByName(message.data.getString("Kick"));
+                    if (beenKicker == null) {
+                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Action.PLAYER_OFFLINE), (EntityPlayerMP) player);
+                    } else {
+                        ClientAok clientKicker = ClientAok.get(player);
+                        TileCore tile = (TileCore) player.getEntityWorld().getTileEntity(clientKicker.getLandPos().getX(), clientKicker.getLandPos().getY(), clientKicker.getLandPos().getZ());
+                        tile.removeMember(beenKicker.getPersistentID());
+                        tile.syncToAll();
+                        ClientAok.get(beenKicker).clearAok();
+
+                        AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(beenKicker), (EntityPlayerMP) beenKicker);
+                    }
+                    break;
+                }
             }
             return null;
         }

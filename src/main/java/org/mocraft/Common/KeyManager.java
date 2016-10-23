@@ -38,7 +38,6 @@ public class KeyManager {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
         if(keys[0].isPressed()) {
-            //player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, world, (int)player.posX, (int)player.posY, (int)player.posZ);
             PacketManager.sendToServer(new GuiAokMessage());
         }
     }

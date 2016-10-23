@@ -36,8 +36,6 @@ public class SyncIEEPMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, SyncIEEPMessage message, MessageContext ctx) {
-            System.out.println("Client recieve Server");
-
             ClientAok clientAok = ClientAok.get(player);
             clientAok.loadNBTData(message.data);
             return null;

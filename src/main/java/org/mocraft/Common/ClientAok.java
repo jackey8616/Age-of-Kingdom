@@ -63,6 +63,14 @@ public class ClientAok implements IExtendedEntityProperties {
         return (ClientAok) player.getExtendedProperties(PROP_NAME);
     }
 
+    public void clearAok() {
+        this.landPos = new BlockPos(0, 0, 0);
+        this.lordName = "null";
+        this.aokName = "null";
+        this.aokLevel = 0;
+        this.members.clear();
+    }
+
     @Override
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound tmp = new NBTTagCompound();
@@ -91,11 +99,11 @@ public class ClientAok implements IExtendedEntityProperties {
             this.aokName = tmp.getString("AokName");
             this.aokLevel = tmp.getInteger("AokLevel");
             NBTTagList list = (NBTTagList) tmp.getTag("Members");
+            ArrayList<String> tmpList = new ArrayList<String>();
             for(int i = 0; i < list.tagCount(); ++i) {
-                if(!this.members.contains(list.getStringTagAt(i))) {
-                    this.members.add(list.getStringTagAt(i));
-                }
+                    tmpList.add(list.getStringTagAt(i));
             }
+            this.members = tmpList;
         }
     }
 

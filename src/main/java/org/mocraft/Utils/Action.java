@@ -6,7 +6,7 @@ package org.mocraft.Utils;
 public enum Action {
 
     SEND_MEMBER(0), REQUEST_OPEN_GUI(1), RECIEVED_MEMBER(2), INVITE_MEMBER(3), INVITATION_FROM(4),
-    PLAYER_OFFLINE(5), PLAYER_ACCEPT(6), PLAYER_DENIED(7);
+    PLAYER_OFFLINE(5), PLAYER_ACCEPT(6), PLAYER_DENIED(7), KICK_PLAYER(8);
 
 
     private int value;
@@ -27,6 +27,7 @@ public enum Action {
             case 5: return PLAYER_OFFLINE;
             case 6: return PLAYER_ACCEPT;
             case 7: return PLAYER_DENIED;
+            case 8: return KICK_PLAYER;
         }
         return null;
     }

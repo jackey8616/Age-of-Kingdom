@@ -107,9 +107,11 @@ public class TileCore extends TileEntity {
         this.aokName = compound.getString("AokName");
         this.aokLevel = compound.getInteger("AokLevel");
         NBTTagList memberList = (NBTTagList) compound.getTag("Members");
+        ArrayList<UUID> tmpMember = new ArrayList<UUID>();
         for(int i = 0; i < memberList.tagCount(); ++i) {
-            addMember(UUID.fromString(memberList.getStringTagAt(i)));
+            tmpMember.add(UUID.fromString(memberList.getStringTagAt(i)));
         }
+        this.members = tmpMember;
     }
 
     @Override
@@ -167,6 +169,12 @@ public class TileCore extends TileEntity {
             if(uuid.equals(player)) { return; }
         }
         this.members.add(player);
+    }
+
+    public void removeMember(UUID player) {
+        if(members.contains(player)) {
+            members.remove(player);
+        }
     }
 
     public ArrayList<String> toStringArrayList() {

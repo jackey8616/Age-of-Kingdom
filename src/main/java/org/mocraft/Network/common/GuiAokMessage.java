@@ -17,6 +17,7 @@ import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -34,13 +35,12 @@ public class GuiAokMessage implements IMessage {
 
     public GuiAokMessage(EntityPlayer player, BlockPos blockPos) {
         TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        BlockPos landPos = new BlockPos(core.xCoord, core.yCoord, core.zCoord);
-        landPos.saveNBTData(data);
-        data.setString("Lord", core.getLordName());
-        data.setString("Name", core.getAokName());
-        data.setInteger("Level", core.getAokLevel());
+        blockPos.saveNBTData(data);
+        data.setString("Lord", blockPos.equals(new BlockPos(0, 0, 0)) ? "null" : core.getLordName());
+        data.setString("Name", blockPos.equals(new BlockPos(0, 0, 0)) ? "null" : core.getAokName());
+        data.setInteger("Level", blockPos.equals(new BlockPos(0, 0, 0)) ? 0 : core.getAokLevel());
         NBTTagList list = new NBTTagList();
-        for(UUID uuid : core.getMembers()) {
+        for(UUID uuid : blockPos.equals(new BlockPos(0, 0, 0)) ? new ArrayList<UUID>() : core.getMembers()) {
             EntityPlayer member = AgeOfKingdom.serverProxy.getPlayerByUuid(uuid);
             if(member != null) {
                 list.appendTag(new NBTTagString(member.getDisplayName()));
@@ -69,9 +69,11 @@ public class GuiAokMessage implements IMessage {
             clientAok.setAokName(message.data.getString("Name"));
             clientAok.setAokLevel(message.data.getInteger("Level"));
             NBTTagList list = (NBTTagList) message.data.getTag("Members");
+            ArrayList<String> tmpList = new ArrayList<String>();
             for(int i = 0; i < list.tagCount(); ++i) {
-                clientAok.addMember(list.getStringTagAt(i));
+                tmpList.add(list.getStringTagAt(i));
             }
+            clientAok.setMembers(tmpList);
 
             player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
             return null;
