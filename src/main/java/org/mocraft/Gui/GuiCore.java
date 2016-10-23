@@ -35,6 +35,10 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void initGui() {
         this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
+
+        if(!this.clientAok.getLordName().equals(player.getDisplayName())) {
+            this.btnMember.enabled = false;
+        }
     }
 
     @Override
@@ -72,10 +76,7 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void actionPerformed(GuiButton button) {
         switch(button.id) {
-            case 0: {
-                AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, Action.REQUEST_OPEN_GUI));
-                break;
-            }
+            case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, Action.REQUEST_OPEN_GUI)); break;
         }
     }
 
@@ -83,6 +84,5 @@ public class GuiCore extends GuiAokContainer {
     public void updateScreen() {
         super.updateScreen();
     }
-
 
 }

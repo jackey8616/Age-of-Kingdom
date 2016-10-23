@@ -31,6 +31,8 @@ public class BlockPos {
         return false;
     }
 
+    public String toString() { return "X= " + this.x + ", Y= " + this.y + ", Z=" + this.z; }
+
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound tmp = new NBTTagCompound();
         tmp.setInteger("X", this.x);

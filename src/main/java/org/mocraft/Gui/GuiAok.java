@@ -1,5 +1,7 @@
 package org.mocraft.Gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Gui.vanilla.GuiAokScreen;
@@ -8,6 +10,7 @@ import org.mocraft.Utils.BlockPos;
 /**
  * Created by Clode on 2016/10/12.
  */
+@SideOnly(Side.CLIENT)
 public class GuiAok extends GuiAokScreen {
 
     private EntityPlayer player;

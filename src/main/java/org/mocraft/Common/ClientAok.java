@@ -92,7 +92,9 @@ public class ClientAok implements IExtendedEntityProperties {
             this.aokLevel = tmp.getInteger("AokLevel");
             NBTTagList list = (NBTTagList) tmp.getTag("Members");
             for(int i = 0; i < list.tagCount(); ++i) {
-                this.members.add(list.getStringTagAt(i));
+                if(!this.members.contains(list.getStringTagAt(i))) {
+                    this.members.add(list.getStringTagAt(i));
+                }
             }
         }
     }

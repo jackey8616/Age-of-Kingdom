@@ -29,6 +29,10 @@ public class PacketManager {
         AgeOfKingdom.channel.registerMessage(GuiMemberMessage.Handler.class, GuiMemberMessage.class, packetId++, Side.SERVER);
     }
 
+    private void regsiter(Class handler, Class glass, Side side) {
+        AgeOfKingdom.channel.registerMessage(handler, glass, packetId++, side);
+    }
+
     public static final void sendTo(IMessage message, EntityPlayer player) {
         for(Object object : MinecraftServer.getServer().getEntityWorld().playerEntities) {
             if(((EntityPlayer) object).getUniqueID().equals(player.getUniqueID())) {

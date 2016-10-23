@@ -36,12 +36,15 @@ public class GuiAokMessage implements IMessage {
         TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         BlockPos landPos = new BlockPos(core.xCoord, core.yCoord, core.zCoord);
         landPos.saveNBTData(data);
-        data.setString("Lord", AgeOfKingdom.serverProxy.getPlayerByUuid(core.getLord()).getDisplayName());
+        data.setString("Lord", core.getLordName());
         data.setString("Name", core.getAokName());
         data.setInteger("Level", core.getAokLevel());
         NBTTagList list = new NBTTagList();
         for(UUID uuid : core.getMembers()) {
-            list.appendTag(new NBTTagString(AgeOfKingdom.serverProxy.getPlayerByUuid(uuid).getDisplayName()));
+            EntityPlayer member = AgeOfKingdom.serverProxy.getPlayerByUuid(uuid);
+            if(member != null) {
+                list.appendTag(new NBTTagString(member.getDisplayName()));
+            }
         }
         data.setTag("Members", list);
     }

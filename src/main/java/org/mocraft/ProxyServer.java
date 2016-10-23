@@ -9,13 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import org.mocraft.Gui.GuiMember;
+import org.mocraft.Gui.*;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Inventory.ContainerCore;
-import org.mocraft.Gui.GuiAok;
-import org.mocraft.Gui.GuiCore;
-import org.mocraft.Gui.GuiCoreNoCreated;
 import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
@@ -32,6 +29,7 @@ public class ProxyServer implements IGuiHandler {
     public static final int GUI_CORE = 2;
     public static final int GUI_CORE_NO_CREATED = 3;
     public static final int GUI_MEMBER = 4;
+    public static final int GUI_INVITATION = 5;
 
     public static final Map<UUID, NBTTagCompound> playerData = new HashMap<UUID, NBTTagCompound>();
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
@@ -62,6 +60,7 @@ public class ProxyServer implements IGuiHandler {
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
                 return new ContainerCore(tile);
             }
+            case GUI_INVITATION: return null;
         }
         return null;
     }
@@ -76,7 +75,9 @@ public class ProxyServer implements IGuiHandler {
             case GUI_MEMBER : {
                 BlockPos pos = ClientAok.get(player).getLandPos();
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-                return new GuiMember(tile, player); }
+                return new GuiMember(tile, player);
+            }
+            case GUI_INVITATION: return new GuiInvitation(player);
         }
         return null;
     }

@@ -1,5 +1,9 @@
 package org.mocraft.TileEntity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -7,10 +11,12 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
 
@@ -39,6 +45,17 @@ public class TileCore extends TileEntity {
         this.aokLevel = 0;
     }
 
+    @SideOnly(Side.SERVER)
+    public void syncToAll() {
+        for(UUID member : members) {
+            EntityPlayer player = AgeOfKingdom.serverProxy.getPlayerByUuid(member);
+            if(player != null) {
+                this.insertToClientAok(ClientAok.get(player));
+                AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
+            }
+        }
+    }
+
     public boolean hasPlayer(UUID uuid) {
         for(UUID member : members) {
             if(member.equals(uuid)) return true;
@@ -46,6 +63,7 @@ public class TileCore extends TileEntity {
         return false;
     }
 
+    @SideOnly(Side.SERVER)
     public void insertToClientAok(ClientAok clientAok) {
         clientAok.setLandPos(new BlockPos(xCoord, yCoord, zCoord));
         clientAok.setLordName(getLordName());
@@ -154,7 +172,10 @@ public class TileCore extends TileEntity {
     public ArrayList<String> toStringArrayList() {
         ArrayList<String> memberName = new ArrayList<String>();
         for(UUID member : members) {
-            memberName.add(AgeOfKingdom.serverProxy.getPlayerByUuid(member).getDisplayName());
+            EntityPlayer player = AgeOfKingdom.serverProxy.getPlayerByUuid(member);
+            if(player != null){
+                memberName.add(player.getDisplayName());
+            }
         }
         return memberName;
     }
