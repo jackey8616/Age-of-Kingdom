@@ -70,18 +70,14 @@ public class BlockCore extends Block implements ITileEntityProvider {
 
     @Override
     public void onPostBlockPlaced(World world, int x, int y, int z, int metadata) {
-        ProxyServer.corePos.add(new BlockPos(x, y, z));
+        ProxyServer.addCorePos(new BlockPos(x, y, z));
         return;
     }
 
     @Override
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
-        for(BlockPos p : ProxyServer.corePos) {
-            if(p.equals(new BlockPos(x, y, z))) {
-                ProxyServer.corePos.remove(p);
-                return;
-            }
-        }
+        ProxyServer.removeCorePos(new BlockPos(x, y, z));
+        return;
     }
 
 }

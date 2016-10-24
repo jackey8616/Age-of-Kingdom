@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Common.EventManager;
 import org.mocraft.Gui.*;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
@@ -48,10 +49,30 @@ public class ProxyServer implements IGuiHandler {
     }
 
     public static void addCorePos(BlockPos pos) {
-        for(BlockPos p : corePos) {
+        for(int i = 0; i < corePos.size(); ++i) {
+            BlockPos p = corePos.get(i);
             if(p.equals(pos)) { return; }
         }
         corePos.add(pos);
+        EventManager.serverDataStorage.markDirty();
+    }
+
+    public static void removeCorePos(BlockPos pos) {
+        for(int i = 0; i < corePos.size(); ++i) {
+            BlockPos p = corePos.get(i);
+            if(p.equals(pos)) {
+                corePos.remove(i);
+                EventManager.serverDataStorage.markDirty();
+            }
+        }
+    }
+
+    public static boolean containsCorePos(BlockPos pos) {
+        for(int i = 0; i < corePos.size(); ++i) {
+            BlockPos p = corePos.get(i);
+            if(p.equals(pos)) { return true; }
+        }
+        return false;
     }
 
     public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }

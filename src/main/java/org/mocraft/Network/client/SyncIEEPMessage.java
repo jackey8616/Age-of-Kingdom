@@ -6,20 +6,31 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.ProxyServer;
+import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.BlockPos;
 
 /**
  * Created by Clode on 2016/10/12.
  */
 public class SyncIEEPMessage implements IMessage {
 
-    private NBTTagCompound data;
+    private NBTTagCompound data = new NBTTagCompound();
 
     public SyncIEEPMessage() {  }
 
     public SyncIEEPMessage(EntityPlayer player) {
-        data = new NBTTagCompound();
-        ClientAok.get(player).saveNBTData(data);
+        ClientAok clientAok = ClientAok.get(player);
+        BlockPos pos = clientAok.getLandPos();
+        if(ProxyServer.containsCorePos(pos)) {
+            TileCore tile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+            tile.insertToClientAok(clientAok);
+        } else {
+            clientAok.clearAok();
+        }
+        clientAok.saveNBTData(data);
     }
 
     @Override

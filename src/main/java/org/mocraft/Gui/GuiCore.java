@@ -9,8 +9,10 @@ import org.mocraft.Common.ClientAok;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
+import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.CoreAction;
 import org.mocraft.Utils.MemberAction;
 import org.mocraft.Utils.BlockPos;
 
@@ -24,7 +26,7 @@ public class GuiCore extends GuiAokContainer {
 
     private ClientAok clientAok;
     private EntityPlayer player;
-    private GuiAokButton btnMember;
+    private GuiAokButton btnMember, btnDismiss;
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
@@ -35,9 +37,11 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void initGui() {
         this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
+        this.buttonList.add(this.btnDismiss = new GuiAokButton(this.btnId++, width - 100 - 10, this.height - 20, 100, 10, "Dismiss"));
 
         if(!this.clientAok.getLordName().equals(player.getDisplayName())) {
             this.btnMember.enabled = false;
+            this.btnDismiss.enabled = false;
         }
     }
 
@@ -71,12 +75,14 @@ public class GuiCore extends GuiAokContainer {
     public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
         this.btnMember.mouseClicked(this, mouseX, mouseY, btnMouse);
+        this.btnDismiss.mouseClicked(this, mouseX, mouseY, btnMouse);
     }
 
     @Override
     public void actionPerformed(GuiButton button) {
         switch(button.id) {
             case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, MemberAction.REQUEST_OPEN_GUI)); break;
+            case 1: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, CoreAction.REQUEST_DISMISS)); break;
         }
     }
 

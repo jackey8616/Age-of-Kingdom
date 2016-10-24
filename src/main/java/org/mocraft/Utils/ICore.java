@@ -5,6 +5,7 @@ import java.util.UUID;
 /**
  * Created by Clode on 2016/10/15.
  */
+@Deprecated
 public interface ICore {
 
     UUID getLord();

@@ -17,8 +17,10 @@ import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Network.client.SyncIEEPMessage;
+import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.CoreAction;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -52,6 +54,18 @@ public class TileCore extends TileEntity {
             if(player != null) {
                 this.insertToClientAok(ClientAok.get(player));
                 AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
+            }
+        }
+    }
+
+    @SideOnly(Side.SERVER)
+    public void dismiss() {
+        for(UUID uuid : this.members) {
+            EntityPlayer p = AgeOfKingdom.serverProxy.getPlayerByUuid(uuid);
+            if(p != null) {
+                ClientAok clientAok = ClientAok.get(p);
+                clientAok.clearAok();
+                AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(p), (EntityPlayerMP) p);
             }
         }
     }
