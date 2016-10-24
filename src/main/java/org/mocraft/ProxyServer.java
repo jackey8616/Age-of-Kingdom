@@ -5,15 +5,18 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import org.mocraft.Gui.*;
-import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Gui.*;
 import org.mocraft.Inventory.ContainerCore;
+import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,12 +37,30 @@ public class ProxyServer implements IGuiHandler {
     public static final Map<UUID, NBTTagCompound> playerData = new HashMap<UUID, NBTTagCompound>();
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
 
+    @SideOnly(Side.SERVER)
+    public TileCore getClosestTileCore(EntityPlayer player) {
+        BlockPos point = new BlockPos(player.posX, player.posY, player.posZ);
+        for(BlockPos pos : corePos) {
+            if(pos.compareSquareRange(point, Util.LAND_FIELD_RADIUS))
+                return (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+        }
+        return null;
+    }
+
+    public static void addCorePos(BlockPos pos) {
+        for(BlockPos p : corePos) {
+            if(p.equals(pos)) { return; }
+        }
+        corePos.add(pos);
+    }
+
     public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }
 
     public NBTTagCompound getPlayerClientCore(EntityPlayer player) { return playerData.get(player.getUniqueID()); }
 
     public void setPlayerClientCore(UUID uuid, NBTTagCompound compound) { playerData.put(uuid, compound); }
 
+    @SideOnly(Side.SERVER)
     public EntityPlayer getPlayerByUuid(UUID uuid) {
         for(Object p : MinecraftServer.getServer().getEntityWorld().playerEntities) {
             EntityPlayer player = (EntityPlayer) p;

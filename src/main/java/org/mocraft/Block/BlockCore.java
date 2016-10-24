@@ -5,13 +5,14 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.BlockPos;
 
 /**
  * Created by Clode on 2016/10/10.
@@ -66,4 +67,21 @@ public class BlockCore extends Block implements ITileEntityProvider {
         }
         return true;
     }
+
+    @Override
+    public void onPostBlockPlaced(World world, int x, int y, int z, int metadata) {
+        ProxyServer.corePos.add(new BlockPos(x, y, z));
+        return;
+    }
+
+    @Override
+    public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
+        for(BlockPos p : ProxyServer.corePos) {
+            if(p.equals(new BlockPos(x, y, z))) {
+                ProxyServer.corePos.remove(p);
+                return;
+            }
+        }
+    }
+
 }

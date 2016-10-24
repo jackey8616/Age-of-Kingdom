@@ -6,7 +6,7 @@ import org.mocraft.AgeOfKingdom;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokScreen;
 import org.mocraft.Network.common.GuiMemberMessage;
-import org.mocraft.Utils.Action;
+import org.mocraft.Utils.MemberAction;
 import org.mocraft.Utils.BlockPos;
 
 /**
@@ -65,8 +65,8 @@ public class GuiInvitation extends GuiAokScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         switch(button.id) {
-            case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, inviter, Action.PLAYER_ACCEPT)); break;
-            case 1: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, inviter, Action.PLAYER_DENIED)); break;
+            case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, inviter, MemberAction.PLAYER_ACCEPT)); break;
+            case 1: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, inviter, MemberAction.PLAYER_DENIED)); break;
         }
         player.closeScreen();
     }

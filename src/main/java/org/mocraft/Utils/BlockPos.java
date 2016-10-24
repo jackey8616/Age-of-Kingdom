@@ -20,6 +20,12 @@ public class BlockPos {
         this.z = z;
     }
 
+    public BlockPos(double x, double y, double z) {
+        this.x = (int) x;
+        this.y = (int) y;
+        this.z = (int) z;
+    }
+
     public boolean compareSquareRange(BlockPos pos, int range) {
         return Math.abs(pos.getX() - this.x) < range && Math.abs(pos.getZ() - this.z) < range;
     }

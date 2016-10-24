@@ -3,7 +3,7 @@ package org.mocraft.Utils;
 /**
  * Created by Clode on 2016/10/22.
  */
-public enum Action {
+public enum MemberAction {
 
     SEND_MEMBER(0), REQUEST_OPEN_GUI(1), RECIEVED_MEMBER(2), INVITE_MEMBER(3), INVITATION_FROM(4),
     PLAYER_OFFLINE(5), PLAYER_ACCEPT(6), PLAYER_DENIED(7), KICK_PLAYER(8);
@@ -11,13 +11,13 @@ public enum Action {
 
     private int value;
 
-    private Action(int value) {
+    private MemberAction(int value) {
         this.value = value;
     }
 
     public int getValue() { return this.value; }
 
-    public static Action fromInteger(int x) {
+    public static MemberAction fromInteger(int x) {
         switch(x) {
             case 0: return SEND_MEMBER;
             case 1: return REQUEST_OPEN_GUI;

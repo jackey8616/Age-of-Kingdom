@@ -33,7 +33,7 @@ public class BlockGenerator implements IWorldGenerator {
 
                 for(int i = 0; i < ProxyServer.corePos.size(); ++i) {
                     BlockPos bPos = ProxyServer.corePos.get(i);
-                    if(Math.abs(pos.getX() - bPos.getX()) <= Util.LAND_MIN_DISTANCE && Math.abs(pos.getZ() - bPos.getZ()) <=  Util.LAND_MIN_DISTANCE) {
+                    if(Math.abs(pos.getX() - bPos.getX()) <= Util.CORE_MIN_DISTANCE && Math.abs(pos.getZ() - bPos.getZ()) <=  Util.CORE_MIN_DISTANCE) {
                         return;
                     }
                 }

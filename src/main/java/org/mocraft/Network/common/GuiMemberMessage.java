@@ -4,7 +4,6 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +16,7 @@ import org.mocraft.Gui.GuiInvitation;
 import org.mocraft.Gui.GuiMember;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Utils.Action;
+import org.mocraft.Utils.MemberAction;
 import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
@@ -31,9 +30,9 @@ public class GuiMemberMessage implements IMessage {
 
     public GuiMemberMessage() {  }
 
-    public GuiMemberMessage(EntityPlayer player, String name, Action action) {
-        data.setInteger("Action", action.getValue());
-        switch(action) {
+    public GuiMemberMessage(EntityPlayer player, String name, MemberAction memberAction) {
+        data.setInteger("MemberAction", memberAction.getValue());
+        switch(memberAction) {
             case SEND_MEMBER: {
                 BlockPos landPos = ClientAok.get(player).getLandPos();
                 ArrayList<String> membersName = ((TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ())).toStringArrayList();
@@ -80,14 +79,14 @@ public class GuiMemberMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiMemberMessage message, MessageContext ctx) {
-            switch(Action.fromInteger(message.data.getInteger("Action"))) {
+            switch(MemberAction.fromInteger(message.data.getInteger("MemberAction"))) {
                 case SEND_MEMBER: {
                     ClientAok clientAok = ClientAok.get(player);
                     NBTTagList list = (NBTTagList) message.data.getTag("Members");
                     for (int i = 0; i < list.tagCount(); ++i) {
                         clientAok.addMember(list.getStringTagAt(i));
                     }
-                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, Action.RECIEVED_MEMBER));
+                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, MemberAction.RECIEVED_MEMBER));
                     break;
                 }
                 case INVITATION_FROM: {
@@ -99,16 +98,16 @@ public class GuiMemberMessage implements IMessage {
                 }
                 case PLAYER_OFFLINE: GuiMember.announceMessage("PLAYER OFFLINE"); break;
                 case PLAYER_ACCEPT:
-                case PLAYER_DENIED: GuiMember.announceMessage(String.valueOf(message.data.getInteger("Action"))); break;
+                case PLAYER_DENIED: GuiMember.announceMessage(String.valueOf(message.data.getInteger("MemberAction"))); break;
             }
             return null;
         }
 
         @Override
         public IMessage messageFromClient(EntityPlayer player, GuiMemberMessage message, MessageContext ctx) {
-            switch(Action.fromInteger(message.data.getInteger("Action"))) {
+            switch(MemberAction.fromInteger(message.data.getInteger("MemberAction"))) {
                 case REQUEST_OPEN_GUI:
-                    AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Action.SEND_MEMBER), (EntityPlayerMP) player);
+                    AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, MemberAction.SEND_MEMBER), (EntityPlayerMP) player);
                     break;
                 case RECIEVED_MEMBER: {
                     player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_MEMBER, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
@@ -120,9 +119,9 @@ public class GuiMemberMessage implements IMessage {
                 case INVITE_MEMBER:
                     EntityPlayer invitationTo = player.getEntityWorld().getPlayerEntityByName(message.data.getString("InvitationTo"));
                     if(invitationTo == null) {
-                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Action.PLAYER_OFFLINE), (EntityPlayerMP) player);
+                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, MemberAction.PLAYER_OFFLINE), (EntityPlayerMP) player);
                     } else {
-                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(invitationTo, player.getDisplayName(), Action.INVITATION_FROM), (EntityPlayerMP) invitationTo);
+                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(invitationTo, player.getDisplayName(), MemberAction.INVITATION_FROM), (EntityPlayerMP) invitationTo);
                     }
                     break;
                 case PLAYER_ACCEPT: {
@@ -133,13 +132,13 @@ public class GuiMemberMessage implements IMessage {
                 }
                 case PLAYER_DENIED: {
                     EntityPlayer replyTo = player.getEntityWorld().getPlayerEntityByName(message.data.getString("ReplyTo"));
-                    AgeOfKingdom.channel.sendTo(new GuiMemberMessage(replyTo, player.getDisplayName(), Action.fromInteger(message.data.getInteger("Action"))), (EntityPlayerMP) replyTo);
+                    AgeOfKingdom.channel.sendTo(new GuiMemberMessage(replyTo, player.getDisplayName(), MemberAction.fromInteger(message.data.getInteger("MemberAction"))), (EntityPlayerMP) replyTo);
                     break;
                 }
                 case KICK_PLAYER: {
                     EntityPlayer beenKicker = player.getEntityWorld().getPlayerEntityByName(message.data.getString("Kick"));
                     if (beenKicker == null) {
-                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Action.PLAYER_OFFLINE), (EntityPlayerMP) player);
+                        AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, MemberAction.PLAYER_OFFLINE), (EntityPlayerMP) player);
                     } else {
                         ClientAok clientKicker = ClientAok.get(player);
                         TileCore tile = (TileCore) player.getEntityWorld().getTileEntity(clientKicker.getLandPos().getX(), clientKicker.getLandPos().getY(), clientKicker.getLandPos().getZ());
