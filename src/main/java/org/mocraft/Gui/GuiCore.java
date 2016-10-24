@@ -26,7 +26,7 @@ public class GuiCore extends GuiAokContainer {
 
     private ClientAok clientAok;
     private EntityPlayer player;
-    private GuiAokButton btnMember, btnDismiss;
+    private GuiAokButton btnMember, btnDismiss, btnQuit;
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
@@ -38,10 +38,13 @@ public class GuiCore extends GuiAokContainer {
     public void initGui() {
         this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
         this.buttonList.add(this.btnDismiss = new GuiAokButton(this.btnId++, width - 100 - 10, this.height - 20, 100, 10, "Dismiss"));
+        this.buttonList.add(this.btnQuit = new GuiAokButton(this.btnId++, width - 100 -10 - 10 - 100, this.height - 20, 100, 10, "Quit"));
 
         if(!this.clientAok.getLordName().equals(player.getDisplayName())) {
             this.btnMember.enabled = false;
             this.btnDismiss.enabled = false;
+        } else {
+            this.btnQuit.enabled = false;
         }
     }
 
@@ -74,8 +77,9 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int btnMouse) {
         super.mouseClicked(mouseX, mouseX, btnMouse);
-        this.btnMember.mouseClicked(this, mouseX, mouseY, btnMouse);
-        this.btnDismiss.mouseClicked(this, mouseX, mouseY, btnMouse);
+        for(Object obj : this.buttonList) {
+            ((GuiAokButton) obj).mouseClicked(this, mouseX, mouseY, btnMouse);
+        }
     }
 
     @Override
@@ -83,6 +87,7 @@ public class GuiCore extends GuiAokContainer {
         switch(button.id) {
             case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, MemberAction.REQUEST_OPEN_GUI)); break;
             case 1: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, CoreAction.REQUEST_DISMISS)); break;
+            case 2: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, CoreAction.SEND_QUIT)); break;
         }
     }
 

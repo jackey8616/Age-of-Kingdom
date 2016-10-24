@@ -5,7 +5,7 @@ package org.mocraft.Utils;
  */
 public enum CoreAction {
 
-    REQUEST_DISMISS(0);
+    REQUEST_DISMISS(0), SEND_QUIT(1);
 
     private int value;
 
@@ -18,6 +18,7 @@ public enum CoreAction {
     public static CoreAction fromInteger(int x) {
         switch(x) {
             case 0: return REQUEST_DISMISS;
+            case 1: return SEND_QUIT;
         }
         return null;
     }
