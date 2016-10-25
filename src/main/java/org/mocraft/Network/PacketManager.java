@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Network.common.GuiAokMessage;
 import org.mocraft.Network.client.SyncIEEPMessage;
+import org.mocraft.Network.common.GuiChatMessage;
 import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.Network.server.CoreCreateMessage;
@@ -30,6 +31,8 @@ public class PacketManager {
         AgeOfKingdom.channel.registerMessage(GuiMemberMessage.Handler.class, GuiMemberMessage.class, packetId++, Side.SERVER);
         AgeOfKingdom.channel.registerMessage(GuiCoreMessage.Handler.class, GuiCoreMessage.class, packetId++, Side.CLIENT);
         AgeOfKingdom.channel.registerMessage(GuiCoreMessage.Handler.class, GuiCoreMessage.class, packetId++, Side.SERVER);
+        AgeOfKingdom.channel.registerMessage(GuiChatMessage.Handler.class, GuiChatMessage.class, packetId++, Side.CLIENT);
+        AgeOfKingdom.channel.registerMessage(GuiChatMessage.Handler.class, GuiChatMessage.class, packetId++, Side.SERVER);
     }
 
     private void regsiter(Class handler, Class glass, Side side) {

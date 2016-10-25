@@ -43,6 +43,7 @@ public class ServerDataStorage extends WorldSavedData {
         Util.CREATE_AOK_MIN_LEVEL = compound.getInteger("CREATE_AOK_MIN_LEVEL");
         Util.LAND_FIELD_RADIUS = compound.getInteger("LAND_FIELD_RADIUS");
         Util.LAND_FIELD_OFFSET = compound.getInteger("LAND_FIELD_OFFSET");
+        Util.CHAT_MIN_RANGE = compound.getInteger("CHAT_MIN_RANGE");
     }
 
     @Override
@@ -57,5 +58,6 @@ public class ServerDataStorage extends WorldSavedData {
         compound.setInteger("CREATE_AOK_MIN_LEVEL", Util.CREATE_AOK_MIN_LEVEL);
         compound.setInteger("LAND_FIELD_RADIUS", Util.LAND_FIELD_RADIUS);
         compound.setInteger("LAND_FIELD_OFFSET", Util.LAND_FIELD_OFFSET);
+        compound.setInteger("CHAT_MIN_RANGE", Util.CHAT_MIN_RANGE);
     }
 }

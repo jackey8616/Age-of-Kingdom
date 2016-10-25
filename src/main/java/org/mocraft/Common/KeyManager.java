@@ -9,9 +9,11 @@ import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import org.mocraft.AgeOfKingdom;
 import org.mocraft.Network.PacketManager;
 import org.mocraft.Network.common.GuiAokMessage;
 
@@ -39,6 +41,10 @@ public class KeyManager {
         EntityPlayer player = mc.thePlayer;
         if(keys[0].isPressed()) {
             PacketManager.sendToServer(new GuiAokMessage());
+        }
+        if(Minecraft.getMinecraft().gameSettings.keyBindChat.isPressed()) {
+            player.closeScreen();
+            player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_CHAT, world, (int) player.posX, (int) player.posY, (int) player.posZ);
         }
     }
 

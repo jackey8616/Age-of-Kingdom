@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.EventManager;
 import org.mocraft.Gui.*;
+import org.mocraft.Gui.vanilla.GuiAokChat;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
@@ -34,6 +35,7 @@ public class ProxyServer implements IGuiHandler {
     public static final int GUI_CORE_NO_CREATED = 3;
     public static final int GUI_MEMBER = 4;
     public static final int GUI_INVITATION = 5;
+    public static final int GUI_CHAT = 6;
 
     public static final Map<UUID, NBTTagCompound> playerData = new HashMap<UUID, NBTTagCompound>();
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
@@ -102,7 +104,8 @@ public class ProxyServer implements IGuiHandler {
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
                 return new ContainerCore(tile);
             }
-            case GUI_INVITATION: return null;
+            case GUI_INVITATION:
+            case GUI_CHAT: return null;
         }
         return null;
     }
@@ -120,6 +123,7 @@ public class ProxyServer implements IGuiHandler {
                 return new GuiMember(tile, player);
             }
             case GUI_INVITATION: return new GuiInvitation(player);
+            case GUI_CHAT: return new GuiAokChat();
         }
         return null;
     }

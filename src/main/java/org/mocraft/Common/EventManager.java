@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -82,5 +83,9 @@ public class EventManager {
     @SubscribeEvent
     public void worldSave(WorldEvent.Save event) {
         this.serverDataStorage.markDirty();
+    }
+
+    public void chatEvent(ClientChatReceivedEvent event) {
+        event.message.getFormattedText().
     }
 }
