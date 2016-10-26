@@ -2,6 +2,7 @@ language: java
 
 script:
   - ./gradlew check
+  - ./gradlew assemble
   - ./gradlew setupCIWorkspace
   - ./gradlew build
 
