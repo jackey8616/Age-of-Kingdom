@@ -1,6 +1,7 @@
 language: java
 
 script:
+  - ./gradlew check
   - ./gradlew setupCIWorkspace
   - ./gradlew build
 
