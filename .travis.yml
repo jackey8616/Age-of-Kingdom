@@ -1,5 +1,7 @@
 language: java
 
+sudo: true
+
 script:
   - ./gradlew check
   - ./gradlew assemble
