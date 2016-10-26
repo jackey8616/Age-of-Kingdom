@@ -2,6 +2,9 @@ language: java
 
 sudo: true
 
+before_install:
+  - chmod +x gradlew
+ 
 script:
   - ./gradlew check
   - ./gradlew assemble
@@ -11,6 +14,3 @@ script:
 jdk:
   - oraclejdk8
   - openjdk8
-
- before_install:
- - chmod +x gradlew
