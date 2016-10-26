@@ -1,5 +1,4 @@
 language: java
-./gradlew check
 ./gradlew setupCIWorkspace
 ./gradlew build
 
