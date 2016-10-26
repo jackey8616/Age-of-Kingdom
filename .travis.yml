@@ -1,0 +1,8 @@
+language: java
+./gradlew check
+./gradlew setupCIWorkspace
+./gradlew build
+
+jdk:
+  - oraclejdk8
+  - openjdk8
