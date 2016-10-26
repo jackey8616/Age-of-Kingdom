@@ -169,8 +169,8 @@ public class GuiAokChat extends GuiScreen implements GuiYesNoCallback {
     {
         this.mc.ingameGUI.getChatGUI().addToSentMessages(p_146403_1_);
         if (net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(mc.thePlayer, p_146403_1_) != 0) return;
-        //this.mc.thePlayer.sendChatMessage(p_146403_1_);
-        AgeOfKingdom.channel.sendToServer(new GuiChatMessage(p_146403_1_, ChatAction.TO_SERVER));
+        this.mc.thePlayer.sendChatMessage(p_146403_1_);
+        //AgeOfKingdom.channel.sendToServer(new GuiChatMessage(p_146403_1_, ChatAction.TO_SERVER));
     }
 
     /**

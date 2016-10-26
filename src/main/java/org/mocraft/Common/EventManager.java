@@ -6,14 +6,21 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.Network.common.GuiChatMessage;
 import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.ChatAction;
+import org.mocraft.Utils.Util;
 
 /**
  * Created by Clode on 2016/10/21.
@@ -27,6 +34,28 @@ public class EventManager {
     public void init(FMLInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
+    }
+
+    @SubscribeEvent
+    public void serverRecievedChat(ServerChatEvent e) {
+        e.setCanceled(true);
+        EntityPlayer player = e.player;
+        for(Object obj : MinecraftServer.getServer().getEntityWorld().playerEntities) {
+            if(((EntityPlayer) obj).getDistanceToEntity(player) <= Util.CHAT_MIN_RANGE && !e.message.contains("achievement")) {
+                AgeOfKingdom.channel.sendTo(new GuiChatMessage(e.message, player.getDisplayName(), ChatAction.TO_CLIENT), (EntityPlayerMP) obj);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void clientReceivedChat(ClientChatReceivedEvent e) {
+        ChatComponentTranslation a = (ChatComponentTranslation)e.message;
+        for(String disable : Util.CHAT_DISABLE_KEYS) {
+            if(a.getKey().contains(disable)) {
+                e.setCanceled(true);
+                return;
+            }
+        }
     }
 
     @SideOnly(Side.SERVER)
@@ -86,6 +115,5 @@ public class EventManager {
     }
 
     public void chatEvent(ClientChatReceivedEvent event) {
-        event.message.getFormattedText().
     }
 }

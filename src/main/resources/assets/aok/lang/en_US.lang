@@ -1,0 +1,12 @@
+tile.blockCore.name=Block Core
+
+aok.AokName=Aok Name
+aok.LordName=Lord Name
+aok.BlockPos=Block Pos
+aok.LordLevel=Lord Level
+aok.MemberCount=Member Count
+aok.Members=Members
+
+gui.aok.button.member=Member
+gui.aok.button.dismiss=Dismiss
+gui.aok.msg.NoKingdom=No Kingdom

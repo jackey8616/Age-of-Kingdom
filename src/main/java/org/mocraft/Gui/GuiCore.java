@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Gui.vanilla.GuiAokButton;
@@ -36,7 +37,7 @@ public class GuiCore extends GuiAokContainer {
 
     @Override
     public void initGui() {
-        this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, "Members"));
+        this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, StatCollector.translateToFallback("gui.aok.button.member")));
         this.buttonList.add(this.btnDismiss = new GuiAokButton(this.btnId++, width - 100 - 10, this.height - 20, 100, 10, "Dismiss"));
         this.buttonList.add(this.btnQuit = new GuiAokButton(this.btnId++, width - 100 -10 - 10 - 100, this.height - 20, 100, 10, "Quit"));
 

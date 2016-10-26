@@ -49,8 +49,11 @@ public class BlockCore extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int action, float hitX, float hitY, float hitZ) {
         TileCore tile = (TileCore) world.getTileEntity(x, y, z);
-        if(!world.isRemote && !tile.isUsing()) {
-            if(!tile.getAokName().equals("null") && !tile.hasPlayer(player.getUniqueID())) {
+        if(!world.isRemote) {
+            if(tile.isUsing()) {
+                player.addChatComponentMessage(new ChatComponentText("Other player is using this block."));
+                return false;
+            } else if(!tile.getAokName().equals("null") && !tile.hasPlayer(player.getUniqueID())) {
                 player.addChatComponentMessage(new ChatComponentText("You are not belong this AoK!"));
                 return false;
             } else if(!ClientAok.get(player).getAokName().equals("null") && !ClientAok.get(player).getAokName().equals(tile.getAokName())) {

@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.vanilla.GuiAokChat;
 import org.mocraft.Utils.ChatAction;
 import org.mocraft.Utils.Util;
 

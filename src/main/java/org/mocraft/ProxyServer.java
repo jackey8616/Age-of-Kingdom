@@ -56,7 +56,7 @@ public class ProxyServer implements IGuiHandler {
             if(p.equals(pos)) { return; }
         }
         corePos.add(pos);
-        EventManager.serverDataStorage.markDirty();
+        //EventManager.serverDataStorage.markDirty(); 10/26 12:36:47 Server mark NullPointerException : during world data loading.
     }
 
     public static void removeCorePos(BlockPos pos) {

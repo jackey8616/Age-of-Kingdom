@@ -5,6 +5,7 @@ package org.mocraft.Utils;
  */
 public class Util {
 
+    // Server variables.
     public static int CREATE_AOK_MIN_LEVEL = 30;
     public static int LAND_FIELD_RADIUS = 100;
     public static int LAND_FIELD_OFFSET = 20;
@@ -12,4 +13,12 @@ public class Util {
 
     public static int CHAT_MIN_RANGE = 30;
 
+   // Client variables.
+    public static final String[] CHAT_DISABLE_KEYS = {
+           "multiplayer.player.joined",
+           "multiplayer.player.left",
+           "chat.type.achievement",
+           "death.attack.mob",
+           "death.attack.player"
+   };
 }
