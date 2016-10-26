@@ -1,6 +1,8 @@
 language: java
-./gradlew setupCIWorkspace
-./gradlew build
+
+script:
+  - ./gradlew setupCIWorkspace
+  - ./gradlew build
 
 jdk:
   - oraclejdk8
