@@ -20,7 +20,7 @@ public class AgeOfKingdom  {
 
     public static final String NAME = "Age of Kingdom";
     public static final String MODID = "aok";
-    public static final String VERSION = "2.0.1.7.10.1558";
+    public static final String VERSION = "2.0.1558";
 
     @Mod.Instance(MODID)
     public static AgeOfKingdom INSTANCE;
