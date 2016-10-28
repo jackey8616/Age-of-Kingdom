@@ -13,6 +13,7 @@ import org.mocraft.Block.BlockManager;
 import org.mocraft.Common.BlockGenerator;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Common.EventManager;
+import org.mocraft.Item.ItemManager;
 import org.mocraft.Network.PacketManager;
 
 @Mod(modid = AgeOfKingdom.MODID, name = AgeOfKingdom.NAME, version = AgeOfKingdom.VERSION)
@@ -31,6 +32,7 @@ public class AgeOfKingdom  {
     public static ProxyClient clientProxy;
 
     public static BlockManager blockManager = new BlockManager();
+    public static ItemManager itemManager = new ItemManager();
     public static PacketManager packetManager = new PacketManager();
     public static BlockGenerator blockGenerator = new BlockGenerator();
     public static EventManager eventManager = new EventManager();
@@ -49,6 +51,7 @@ public class AgeOfKingdom  {
 
         serverProxy.init(event);
         blockManager.init(event);
+        itemManager.init(event);
         eventManager.init(event);
         ClientAok.init();
     }

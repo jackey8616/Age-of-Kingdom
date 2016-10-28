@@ -36,6 +36,7 @@ public class ProxyServer implements IGuiHandler {
     public static final int GUI_MEMBER = 4;
     public static final int GUI_INVITATION = 5;
     public static final int GUI_CHAT = 6;
+    public static final int GUI_ADMIN = 7;
 
     public static final Map<UUID, NBTTagCompound> playerData = new HashMap<UUID, NBTTagCompound>();
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
@@ -105,7 +106,8 @@ public class ProxyServer implements IGuiHandler {
                 return new ContainerCore(tile);
             }
             case GUI_INVITATION:
-            case GUI_CHAT: return null;
+            case GUI_CHAT:
+            case GUI_ADMIN: return null;
         }
         return null;
     }
@@ -124,6 +126,7 @@ public class ProxyServer implements IGuiHandler {
             }
             case GUI_INVITATION: return new GuiInvitation(player);
             case GUI_CHAT: return new GuiAokChat();
+            case GUI_ADMIN: return new GuiAdmin();
         }
         return null;
     }

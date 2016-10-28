@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.Common.KeyManager;
+import org.mocraft.Item.ItemManager;
 
 import java.util.UUID;
 
@@ -31,10 +32,11 @@ public class ProxyClient extends ProxyServer {
     public EntityPlayer getPlayerEntity(MessageContext ctx) { return Minecraft.getMinecraft().thePlayer; }
 
     @Override
-    public void preInit(FMLPreInitializationEvent event) {}
+    public void preInit(FMLPreInitializationEvent event) {  }
 
     @Override
     public void init(FMLInitializationEvent event) {
+        ItemManager.item3DRendererRegister();
         keyManager.init(event);
     }
 
