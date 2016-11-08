@@ -10,14 +10,17 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Network.common.GuiChatMessage;
+import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.ChatAction;
 import org.mocraft.Utils.Util;
@@ -68,7 +71,7 @@ public class EventManager {
             if(nearByCore == null || nearByCore.getAokName().equals("null") || nearByCore.getAokName().equals(attackerAok.getAokName())) {
                 return;
             }
-            attacker.addChatComponentMessage(new ChatComponentText("You don't have permission to launch attack."));
+            attacker.addChatComponentMessage(new ChatComponentText( StatCollector.translateToLocal("event.onEntityDamage.NoPermission")));
             e.setCanceled(true);
         }
     }
@@ -80,7 +83,7 @@ public class EventManager {
         ClientAok clientAok = ClientAok.get(e.entityPlayer);
         TileCore nearByCore = AgeOfKingdom.serverProxy.getClosestTileCore(e.entityPlayer);
         if(nearByCore == null || nearByCore.getAokName().equals("null") || nearByCore.getAokName().equals(clientAok.getAokName())) { return; }
-        e.entityPlayer.addChatComponentMessage(new ChatComponentText("You don't have permission to build in this aok."));
+        e.entityPlayer.addChatComponentMessage(new ChatComponentText( StatCollector.translateToLocal("event.onBlockPlaceEvent.NoPermission")));
         e.setCanceled(true);
 
         /**
@@ -102,6 +105,16 @@ public class EventManager {
         }
          **/
         return;
+    }
+
+    @SubscribeEvent
+    public void onPlayerUpdateEvent(LivingEvent.LivingUpdateEvent e) {
+        if(!(e.entity instanceof EntityPlayer)) { return; }
+        EntityPlayer player = (EntityPlayer) e.entity;
+        if(player.lastTickPosX != player.posX || player.lastTickPosY != player.posY || player.lastTickPosZ != player.posZ) {
+            //String groundName = AgeOfKingdom.serverProxy.getClosestTileCore(player).getAokName().equals("null") ? "Non" : AgeOfKingdom.serverProxy.getClosestTileCore(player).getAokName();
+
+        }
     }
 
     @SubscribeEvent

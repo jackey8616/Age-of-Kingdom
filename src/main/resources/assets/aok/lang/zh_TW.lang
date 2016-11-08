@@ -1,0 +1,32 @@
+tile.blockCore.name=核心方塊
+
+aok.AokName=領地名稱
+aok.LordName=領主名稱
+aok.AokPos=核心座標
+aok.LordLevel=領主等級
+aok.AokLevel=領地等級
+aok.MemberCount=領民數
+aok.Members=領民
+
+gui.admin.button.confirm=確認
+gui.admin.button.cancel=取消
+
+gui.aok.button.member=領民
+gui.aok.button.dismiss=解散
+gui.aok.msg.NoKingdom=沒有領地
+gui.aok.button.quit=關閉
+
+gui.CoreNoCreated.button.create=建立
+gui.CoreNoCreated.button.cancel=取消
+gui.CoreNoCreated.msg.CreateAVillage=建立一個領地
+gui.CoreNoCreated.msg.IfYouWantToCreateAVillageYouMustHaveLevel=如果你想建立一個領地, 你必須要有等級
+
+gui.invitation.button.accept=接受
+gui.invitation.button.denied=拒絕
+
+gui.member.button.invite=邀請
+gui.member.button.kick=剔除
+gui.member.button.cancel=取消
+
+event.onBlockPlaceEvent.NoPermission=你沒有權限在這個領地內建造 / 破壞.
+event.onEntityDamage.NoPermission=你沒有權限在這個領地發起攻擊.

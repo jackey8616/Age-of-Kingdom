@@ -2,11 +2,31 @@ tile.blockCore.name=Block Core
 
 aok.AokName=Aok Name
 aok.LordName=Lord Name
-aok.BlockPos=Block Pos
+aok.AokPos=Block Pos
 aok.LordLevel=Lord Level
+aok.AokLevel=Aok Level
 aok.MemberCount=Member Count
 aok.Members=Members
 
+gui.admin.button.confirm=Confirm
+gui.admin.button.cancel=Cancel
+
 gui.aok.button.member=Member
 gui.aok.button.dismiss=Dismiss
+gui.aok.button.quit=Quit
 gui.aok.msg.NoKingdom=No Kingdom
+
+gui.CoreNoCreated.button.create=Create
+gui.CoreNoCreated.button.cancel=Cancel
+gui.CoreNoCreated.msg.CreateAVillage=Create A Village
+gui.CoreNoCreated.msg.IfYouWantToCreateAVillageYouMustHaveLevel=If you want to create a village, you must have level
+
+gui.invitation.button.accept=Accept
+gui.invitation.button.denied=Denied
+
+gui.member.button.invite=Invite
+gui.member.button.kick=Kick
+gui.member.button.cancel=Cancel
+
+event.onBlockPlaceEvent.NoPermission=You don't have permission to build in this aok.
+event.onEntityDamage.NoPermission=You don't have permission to launch attack.

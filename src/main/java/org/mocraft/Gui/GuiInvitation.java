@@ -2,6 +2,7 @@ package org.mocraft.Gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokScreen;
@@ -36,19 +37,19 @@ public class GuiInvitation extends GuiAokScreen {
 
     @Override
     public void initGui() {
-        this.buttonList.add(btnAccept = new  GuiAokButton(0, 10, 20, 100, 10, "Accept"));
-        this.buttonList.add(btnDenied = new  GuiAokButton(1, 10 + 100, 20, 100, 10, "Denied"));
+        this.buttonList.add(btnAccept = new  GuiAokButton(0, 10, 20, 100, 10, StatCollector.translateToLocal("gui.invitation.button.accept")));
+        this.buttonList.add(btnDenied = new  GuiAokButton(1, 10 + 100, 20, 100, 10, StatCollector.translateToLocal("gui.invitation.button.denied")));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float tick) {
         super.drawScreen(mouseX, mouseY, tick);
 
-        this.drawString(fontRendererObj, "Aok Name : " + this.aokName, 10, 20, 0xffffff);
-        this.drawString(fontRendererObj, "Aok Level : " + String.valueOf(this.aokLevel), 10, 30, 0xffffff);
-        this.drawString(fontRendererObj, "Lord Name : " + this.lordName, 10, 40, 0xffffff);
-        this.drawString(fontRendererObj, "Lord Level : " + String.valueOf(this.lordLevel), 10, 50, 0xffffff);
-        this.drawString(fontRendererObj, "Aok Pos : " + landPos.toString(), 10, 60, 0xffffff);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokName") + " : " + this.aokName, 10, 20, 0xffffff);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokLevel") + " : " + String.valueOf(this.aokLevel), 10, 30, 0xffffff);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordName") + " : " + this.lordName, 10, 40, 0xffffff);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordLevel") + " : " + String.valueOf(this.lordLevel), 10, 50, 0xffffff);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokPos") + " : " + landPos.toString(), 10, 60, 0xffffff);
 
         for(Object obj : this.buttonList) {
             ((GuiAokButton) obj).drawButton(mc, mouseX, mouseY);

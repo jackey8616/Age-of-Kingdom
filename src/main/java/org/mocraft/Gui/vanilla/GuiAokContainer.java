@@ -686,7 +686,7 @@ public abstract class GuiAokContainer extends GuiAokScreen {
      */
     protected void keyTyped(char p_73869_1_, int p_73869_2_)
     {
-        if (p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
+        if (p_73869_2_ == 1) // || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
             this.mc.thePlayer.closeScreen();
         }

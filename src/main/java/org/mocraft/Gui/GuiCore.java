@@ -37,9 +37,9 @@ public class GuiCore extends GuiAokContainer {
 
     @Override
     public void initGui() {
-        this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, StatCollector.translateToFallback("gui.aok.button.member")));
-        this.buttonList.add(this.btnDismiss = new GuiAokButton(this.btnId++, width - 100 - 10, this.height - 20, 100, 10, "Dismiss"));
-        this.buttonList.add(this.btnQuit = new GuiAokButton(this.btnId++, width - 100 -10 - 10 - 100, this.height - 20, 100, 10, "Quit"));
+        this.buttonList.add(this.btnMember = new GuiAokButton(this.btnId++, width - 100 - 10, 60, 100, 10, StatCollector.translateToLocal("gui.aok.button.member")));
+        this.buttonList.add(this.btnDismiss = new GuiAokButton(this.btnId++, width - 100 - 10, this.height - 20, 100, 10, StatCollector.translateToLocal("gui.aok.button.dismiss")));
+        this.buttonList.add(this.btnQuit = new GuiAokButton(this.btnId++, width - 100 -10 - 10 - 100, this.height - 20, 100, 10, StatCollector.translateToLocal("gui.aok.button.quit")));
 
         if(!this.clientAok.getLordName().equals(player.getDisplayName())) {
             this.btnMember.enabled = false;
@@ -52,14 +52,14 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if(this.clientAok.getLandPos().equals(new BlockPos(0, 0, 0)) && this.clientAok.getLordLevel() == 0) {
-            this.drawString(fontRendererObj, "Non Kingdom", this.width / 2, this.height / 2, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("gui.aok.msg.NoKingdom"), this.width / 2, this.height / 2, 0xffffff);
         } else {
-            this.drawString(fontRendererObj, "Name : " + this.clientAok.getAokName(), 10, 10, 0xffffff);
-            this.drawString(fontRendererObj, "BlockPos : x=" + this.clientAok.getLandPos().getX() + ", y=" + this.clientAok.getLandPos().getY() + ", z=" + this.clientAok.getLandPos().getZ(), 10, 20, 0xffffff);
-            this.drawString(fontRendererObj, "Aok Level : " + this.clientAok.getAokLevel(), 10, 30, 0xffffff);
-            this.drawString(fontRendererObj, "Lord Level : Lv. " + this.clientAok.getLordLevel(), 10, 40, 0xffffff);
-            this.drawString(fontRendererObj, "Lord Name : " + this.clientAok.getLordName(), 10, 50, 0xffffff);
-            this.drawString(fontRendererObj, "Members : ", 10, 60, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokName") + " : " + this.clientAok.getAokName(), 10, 10, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokPos") + " : x=" + this.clientAok.getLandPos().getX() + ", y=" + this.clientAok.getLandPos().getY() + ", z=" + this.clientAok.getLandPos().getZ(), 10, 20, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokLevel") + " : " + this.clientAok.getAokLevel(), 10, 30, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordLevel") + " : Lv. " + this.clientAok.getLordLevel(), 10, 40, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordName") + " : " + this.clientAok.getLordName(), 10, 50, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.Members") + " : ", 10, 60, 0xffffff);
             for(int i = 0; i < this.clientAok.getMembers().size(); ++i) {
                 this.drawString(fontRendererObj, this.clientAok.getMembers().get(i), 50 , 60 + i * 12, 0xffffff);
             }

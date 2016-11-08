@@ -3,6 +3,7 @@ package org.mocraft.Gui;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.StatCollector;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokScreen;
 
@@ -22,8 +23,8 @@ public class GuiAdmin extends GuiAokScreen {
     public void initGui() {
         this.buttonList.add(btnNext = new GuiAokButton(btnId++, width - 30 - 5, height - 25, 30, 20, "►"));
         this.buttonList.add(btnPrevious = new GuiAokButton(btnId++, 5, height - 25, 30, 20, "◄"));
-        this.buttonList.add(btnConfirm = new GuiAokButton(btnId++, width / 2 - 100 - 5, height - 25, 100, 20, "Confirm"));
-        this.buttonList.add(btnCancel = new GuiAokButton(btnId++, width / 2 + 5, height - 25, 100, 20, "Cancel"));
+        this.buttonList.add(btnConfirm = new GuiAokButton(btnId++, width / 2 - 100 - 5, height - 25, 100, 20, StatCollector.translateToLocal("gui.admin.button.confirm")));
+        this.buttonList.add(btnCancel = new GuiAokButton(btnId++, width / 2 + 5, height - 25, 100, 20, StatCollector.translateToLocal("gui.admin.button.cancel")));
 
         this.btnPrevious.enabled = false;
     }

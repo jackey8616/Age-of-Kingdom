@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokContainer;
@@ -38,14 +39,14 @@ public class GuiCoreNoCreated extends GuiAokContainer {
         this.txtName = new GuiTextField(fontRendererObj, 10, 40, 100, 20);
         this.txtName.setFocused(true);
 
-        this.buttonList.add(this.btnCreate = new GuiAokButton(btnId++, 10, 70, 100, 20, "Create"));
-        this.buttonList.add(this.btnCancel = new GuiAokButton(btnId++, 10 + 100, 70, 100, 20, "Cancel"));
+        this.buttonList.add(this.btnCreate = new GuiAokButton(btnId++, 10, 70, 100, 20, StatCollector.translateToLocal("gui.CoreNoCreated.button.create")));
+        this.buttonList.add(this.btnCancel = new GuiAokButton(btnId++, 10 + 100, 70, 100, 20, StatCollector.translateToLocal("gui.CoreNoCreated.button.cancel")));
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-        this.drawString(fontRendererObj, "Create A Village", 10, 10, 0xFFFFFF);
-        this.drawString(fontRendererObj, "If you want to create a village, you must have level " + Util.CREATE_AOK_MIN_LEVEL + ".", 10, 22, 0xFFFFFF);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("gui.CoreNoCreated.msg.CreateAVillage"), 10, 10, 0xFFFFFF);
+        this.drawString(fontRendererObj, StatCollector.translateToLocal("gui.CoreNoCreated.msg.IfYouWantToCreateAVillageYouMustHaveLevel") + Util.CREATE_AOK_MIN_LEVEL + ".", 10, 22, 0xFFFFFF);
 
         this.txtName.drawTextBox();
         for(Object btn : this.buttonList) {

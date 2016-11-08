@@ -30,7 +30,7 @@ public class GuiAok extends GuiAokScreen {
             this.drawString(fontRendererObj, StatCollector.translateToLocal("gui.aok.msg.NoKingdom"), this.width / 2, this.height / 2, 0xffffff);
         } else {
             this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokName") + " : " + ieep.getAokName(), 10, 10, 0xffffff);
-            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.BlockPos") + " : x=" + ieep.getLandPos().getX() + ", y=" + ieep.getLandPos().getY() + ", z=" + ieep.getLandPos().getZ(), 10, 20, 0xffffff);
+            this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.AokPos") + " : x=" + ieep.getLandPos().getX() + ", y=" + ieep.getLandPos().getY() + ", z=" + ieep.getLandPos().getZ(), 10, 20, 0xffffff);
             this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordLevel") + " : Lv. " + ieep.getLordLevel(), 10, 30, 0xffffff);
             this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.LordName") + " : " + ieep.getLordName(), 10, 40, 0xffffff);
             this.drawString(fontRendererObj, StatCollector.translateToLocal("aok.MemberCount") + " : " + ieep.getMembers().size(), 10, 50, 0xffffff);

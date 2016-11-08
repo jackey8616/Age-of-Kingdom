@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.Common.KeyManager;
+import org.mocraft.Gui.GuiMainScreen;
 import org.mocraft.Item.ItemManager;
 
 import java.util.UUID;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class ProxyClient extends ProxyServer {
 
     public KeyManager keyManager = new KeyManager();
+    public GuiMainScreen guiMainScreen = new GuiMainScreen();
 
     @Override
     public EntityPlayer getPlayerByUuid(UUID uuid) {
@@ -37,6 +39,7 @@ public class ProxyClient extends ProxyServer {
     @Override
     public void init(FMLInitializationEvent event) {
         ItemManager.item3DRendererRegister();
+        guiMainScreen.init(event);
         keyManager.init(event);
     }
 

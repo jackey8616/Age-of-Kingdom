@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Gui.vanilla.GuiAokButton;
 import org.mocraft.Gui.vanilla.GuiAokContainer;
@@ -42,9 +43,9 @@ public class GuiMember extends GuiAokContainer {
         this.txtName = new GuiTextField(fontRendererObj, 10, 40, 100, 20);
         this.txtName.setFocused(true);
 
-        this.buttonList.add(btnInvite = new GuiAokButton(btnId++, 10, 60, 100, 20, "Invite"));
-        this.buttonList.add(btnKick = new GuiAokButton(btnId++, 10 + 100, 60, 100, 20, "Kick"));
-        this.buttonList.add(btnCancel = new GuiAokButton(btnId++, 10 + 200, 60, 100, 20, "Cancel"));
+        this.buttonList.add(btnInvite = new GuiAokButton(btnId++, 10, 60, 100, 20, StatCollector.translateToLocal("gui.member.button.invite")));
+        this.buttonList.add(btnKick = new GuiAokButton(btnId++, 10 + 100, 60, 100, 20, StatCollector.translateToLocal("gui.member.button.kick")));
+        this.buttonList.add(btnCancel = new GuiAokButton(btnId++, 10 + 200, 60, 100, 20, StatCollector.translateToLocal("gui.member.button.cancel")));
 
     }
 
