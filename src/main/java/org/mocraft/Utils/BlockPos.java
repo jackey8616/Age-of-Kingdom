@@ -30,6 +30,10 @@ public class BlockPos {
         return Math.abs(pos.getX() - this.x) < range && Math.abs(pos.getZ() - this.z) < range;
     }
 
+    public double caculateDistance(BlockPos pos) {
+        return Math.sqrt(Math.pow(this.x - pos.getX(), 2) + Math.pow(this.y - pos.getY(), 2) + Math.pow(this.z - pos.getZ(), 2));
+    }
+
     public boolean equals(BlockPos compare) {
         if(this.x == compare.getX() && this.y == compare.getY() && this.z == compare.getZ()) {
             return true;

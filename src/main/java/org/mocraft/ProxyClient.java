@@ -6,7 +6,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import org.mocraft.Common.KeyManager;
 import org.mocraft.Gui.GuiMainScreen;
 import org.mocraft.Item.ItemManager;
@@ -39,11 +38,11 @@ public class ProxyClient extends ProxyServer {
     @Override
     public void init(FMLInitializationEvent event) {
         ItemManager.item3DRendererRegister();
-        guiMainScreen.init(event);
         keyManager.init(event);
+        guiMainScreen.init(event);
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event) {}
+    public void postInit(FMLPostInitializationEvent event) {  }
 
 }

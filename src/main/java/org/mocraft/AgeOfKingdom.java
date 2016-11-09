@@ -39,8 +39,10 @@ public class AgeOfKingdom  {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        if(event.getSide().isClient()) {
+            clientProxy = new ProxyClient();
+        }
         serverProxy.preInit(event);
-
         packetManager.preInit(event);
     }
 

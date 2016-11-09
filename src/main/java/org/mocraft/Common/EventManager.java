@@ -19,10 +19,14 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.mocraft.AgeOfKingdom;
+import org.mocraft.Gui.GuiMainScreen;
 import org.mocraft.Network.common.GuiChatMessage;
+import org.mocraft.Network.common.GuiMainScreenMessage;
 import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
+import org.mocraft.Utils.BlockPos;
 import org.mocraft.Utils.ChatAction;
+import org.mocraft.Utils.MainScreenAction;
 import org.mocraft.Utils.Util;
 
 /**
@@ -67,7 +71,7 @@ public class EventManager {
         if(e.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer    attacker = (EntityPlayer) e.source.getEntity();
             ClientAok       attackerAok = ClientAok.get(attacker);
-            TileCore nearByCore = AgeOfKingdom.serverProxy.getClosestTileCore(attacker);
+            TileCore nearByCore = AgeOfKingdom.serverProxy.getClosestTileCoreInField(attacker);
             if(nearByCore == null || nearByCore.getAokName().equals("null") || nearByCore.getAokName().equals(attackerAok.getAokName())) {
                 return;
             }
@@ -81,7 +85,7 @@ public class EventManager {
     public void onBlockPlaceEvent(PlayerInteractEvent e) {
         if(e.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) { return; }
         ClientAok clientAok = ClientAok.get(e.entityPlayer);
-        TileCore nearByCore = AgeOfKingdom.serverProxy.getClosestTileCore(e.entityPlayer);
+        TileCore nearByCore = AgeOfKingdom.serverProxy.getClosestTileCoreInField(e.entityPlayer);
         if(nearByCore == null || nearByCore.getAokName().equals("null") || nearByCore.getAokName().equals(clientAok.getAokName())) { return; }
         e.entityPlayer.addChatComponentMessage(new ChatComponentText( StatCollector.translateToLocal("event.onBlockPlaceEvent.NoPermission")));
         e.setCanceled(true);
@@ -107,13 +111,15 @@ public class EventManager {
         return;
     }
 
+    @SideOnly(Side.SERVER)
     @SubscribeEvent
     public void onPlayerUpdateEvent(LivingEvent.LivingUpdateEvent e) {
         if(!(e.entity instanceof EntityPlayer)) { return; }
         EntityPlayer player = (EntityPlayer) e.entity;
-        if(player.lastTickPosX != player.posX || player.lastTickPosY != player.posY || player.lastTickPosZ != player.posZ) {
-            //String groundName = AgeOfKingdom.serverProxy.getClosestTileCore(player).getAokName().equals("null") ? "Non" : AgeOfKingdom.serverProxy.getClosestTileCore(player).getAokName();
-
+        if(player.lastTickPosX != player.posX || player.lastTickPosZ != player.posZ) {
+            TileCore tile = AgeOfKingdom.serverProxy.getClosestTileCore(player);
+            String groundName = tile.getAokName().equals("null") ? "Non" : tile.getAokName();
+            AgeOfKingdom.channel.sendTo(new GuiMainScreenMessage(MainScreenAction.SEND_LAND_NAME, groundName), (EntityPlayerMP) player);
         }
     }
 

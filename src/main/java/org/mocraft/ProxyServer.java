@@ -20,10 +20,7 @@ import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
 import org.mocraft.Utils.Util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Clode on 2016/10/10.
@@ -42,13 +39,25 @@ public class ProxyServer implements IGuiHandler {
     public static final ArrayList<BlockPos> corePos = new ArrayList<BlockPos>();
 
     @SideOnly(Side.SERVER)
-    public TileCore getClosestTileCore(EntityPlayer player) {
+    public TileCore getClosestTileCoreInField(EntityPlayer player) {
         BlockPos point = new BlockPos(player.posX, player.posY, player.posZ);
         for(BlockPos pos : corePos) {
             if(pos.compareSquareRange(point, Util.LAND_FIELD_RADIUS))
                 return (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(pos.getX(), pos.getY(), pos.getZ());
         }
         return null;
+    }
+
+    @SideOnly(Side.SERVER)
+    public TileCore getClosestTileCore(EntityPlayer player) {
+        BlockPos point = new BlockPos(player.posX, player.posY, player.posZ);
+        double[] distance = new double[corePos.size()];
+        int min = 0;
+        for(int i = 0; i < corePos.size(); ++i) {
+            distance[i] = corePos.get(i).caculateDistance(point);
+            min = distance[i] < distance[min] ? i : min;
+        }
+        return (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(corePos.get(min).getX(), corePos.get(min).getY(), corePos.get(min).getZ());
     }
 
     public static void addCorePos(BlockPos pos) {

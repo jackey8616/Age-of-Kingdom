@@ -21,12 +21,11 @@ import java.util.UUID;
  */
 public class CoreCreateMessage implements IMessage {
 
-    private NBTTagCompound  data;
+    private NBTTagCompound  data = new NBTTagCompound();
 
     public CoreCreateMessage() {  }
 
     public CoreCreateMessage(String aokName, UUID lord, BlockPos blockPos) {
-        this.data = new NBTTagCompound();
         this.data.setString("Lord", lord.toString());
         this.data.setString("AokName", aokName);
         blockPos.saveNBTData(this.data);
