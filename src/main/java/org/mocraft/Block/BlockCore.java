@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
@@ -51,13 +52,16 @@ public class BlockCore extends Block implements ITileEntityProvider {
         TileCore tile = (TileCore) world.getTileEntity(x, y, z);
         if(!world.isRemote) {
             if(tile.isUsing()) {
-                player.addChatComponentMessage(new ChatComponentText("Other player is using this block."));
+                //player.addChatComponentMessage(new ChatComponentText("Other player is using this block."));
+                player.addChatComponentMessage(new ChatComponentTranslation("Other player is using this block."));
                 return false;
             } else if(!tile.getAokName().equals("null") && !tile.hasPlayer(player.getUniqueID())) {
-                player.addChatComponentMessage(new ChatComponentText("You are not belong this AoK!"));
+                //player.addChatComponentMessage(new ChatComponentText("You are not belong this AoK!"));
+                player.addChatComponentMessage(new ChatComponentTranslation("You are not belong this AoK!"));
                 return false;
             } else if(!ClientAok.get(player).getAokName().equals("null") && !ClientAok.get(player).getAokName().equals(tile.getAokName())) {
-                player.addChatComponentMessage(new ChatComponentText("You already have a AoK!"));
+                //player.addChatComponentMessage(new ChatComponentText("You already have a AoK!"));
+                player.addChatComponentMessage(new ChatComponentTranslation("You already have a AoK!"));
                 return false;
             }
 

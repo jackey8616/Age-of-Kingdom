@@ -42,7 +42,7 @@ public class KeyManager {
         if(keys[0].isPressed()) {
             PacketManager.sendToServer(new GuiAokMessage());
         }
-        if(Minecraft.getMinecraft().gameSettings.keyBindChat.isPressed()) {
+        if(mc.gameSettings.keyBindChat.isPressed()) {
             player.closeScreen();
             player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_CHAT, world, (int) player.posX, (int) player.posY, (int) player.posZ);
         }
