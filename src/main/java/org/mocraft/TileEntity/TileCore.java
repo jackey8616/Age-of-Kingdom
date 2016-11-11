@@ -13,9 +13,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
+import org.mocraft.Entity.EntityQuester;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.ProxyServer;
@@ -68,6 +71,13 @@ public class TileCore extends TileEntity {
                 AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(p), (EntityPlayerMP) p);
             }
         }
+    }
+
+    @SideOnly(Side.SERVER)
+    public void spawnNPC(World world) {
+        EntityQuester entity = new EntityQuester(world);
+        entity.setLocationAndAngles(xCoord, yCoord + 2, zCoord, MathHelper.wrapAngleTo180_float(world.rand.nextFloat()) * 360.0F, 0.0F);
+        world.spawnEntityInWorld(entity);
     }
 
     public boolean hasPlayer(UUID uuid) {

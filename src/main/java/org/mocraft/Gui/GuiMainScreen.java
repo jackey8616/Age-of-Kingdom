@@ -62,7 +62,7 @@ public class GuiMainScreen extends GuiAokScreen {
     public void updateLandName(String lN) {
         if(!this.landName.equals(lN)) {
             this.landName = lN;
-            this.landNameTick = 160;
+            this.landNameTick = 80;
         }
     }
 

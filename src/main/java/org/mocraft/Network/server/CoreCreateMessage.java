@@ -47,6 +47,7 @@ public class CoreCreateMessage implements IMessage {
             core.setLord(UUID.fromString(message.data.getString("Lord")));
             core.addMember(core.getLord());
             core.insertToClientAok(ClientAok.get(player));
+            core.spawnNPC(MinecraftServer.getServer().getEntityWorld());
             player.closeScreen();
             player.experienceLevel -= Util.CREATE_AOK_MIN_LEVEL;
 

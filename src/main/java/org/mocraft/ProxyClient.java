@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import org.mocraft.Common.EntityManager;
 import org.mocraft.Common.KeyManager;
 import org.mocraft.Gui.GuiMainScreen;
 import org.mocraft.Item.ItemManager;
@@ -40,6 +41,7 @@ public class ProxyClient extends ProxyServer {
         ItemManager.item3DRendererRegister();
         keyManager.init(event);
         guiMainScreen.init(event);
+        EntityManager.entityRenderRegister();
     }
 
     @Override
