@@ -13,8 +13,6 @@ import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Utils.CoreAction;
-import org.mocraft.Utils.MemberAction;
 import org.mocraft.Utils.BlockPos;
 
 /**
@@ -86,9 +84,9 @@ public class GuiCore extends GuiAokContainer {
     @Override
     public void actionPerformed(GuiButton button) {
         switch(button.id) {
-            case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, MemberAction.REQUEST_OPEN_GUI)); break;
-            case 1: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, CoreAction.REQUEST_DISMISS)); break;
-            case 2: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, CoreAction.SEND_QUIT)); break;
+            case 0: AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, null, GuiMemberMessage.Type.REQUEST_OPEN_GUI)); break;
+            case 1: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, GuiCoreMessage.Type.REQUEST_DISMISS)); break;
+            case 2: AgeOfKingdom.channel.sendToServer(new GuiCoreMessage(player, GuiCoreMessage.Type.SEND_QUIT)); break;
         }
     }
 

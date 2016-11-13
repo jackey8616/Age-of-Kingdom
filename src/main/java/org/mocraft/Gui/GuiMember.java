@@ -12,7 +12,6 @@ import org.mocraft.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Utils.MemberAction;
 
 /**
  * Created by Clode on 2016/10/22.
@@ -79,12 +78,12 @@ public class GuiMember extends GuiAokContainer {
         switch(button.id) {
             case 0: {
                 if(!this.txtName.getText().equals(""))
-                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), MemberAction.INVITE_MEMBER));
+                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), GuiMemberMessage.Type.INVITE_MEMBER));
                 break;
             }
             case 1: {
                 if(!this.txtName.getText().equals(""))
-                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), MemberAction.KICK_PLAYER));
+                    AgeOfKingdom.channel.sendToServer(new GuiMemberMessage(player, txtName.getText(), GuiMemberMessage.Type.KICK_PLAYER));
                 break;
             }
             case 2: {

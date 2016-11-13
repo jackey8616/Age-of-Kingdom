@@ -19,6 +19,7 @@ public class RendererEntity extends RenderLiving {
         super.doRender((Entity)entityLiving, d, d1, d2, f, f1);
     }
 
+    @Override
     public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
         doRenderLiving((EntityLiving)entity, d, d1, d2, f, f1);
     }

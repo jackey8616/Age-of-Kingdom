@@ -5,22 +5,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
 import org.mocraft.Gui.GuiMainScreen;
-import org.mocraft.Network.PacketManager;
-import org.mocraft.Network.client.SyncIEEPMessage;
-import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Utils.BlockPos;
-import org.mocraft.Utils.MainScreenAction;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by Clode on 2016/10/19.
@@ -31,7 +18,7 @@ public class GuiMainScreenMessage implements IMessage {
 
     public GuiMainScreenMessage() {  }
 
-    public GuiMainScreenMessage(MainScreenAction action, String landName) {
+    public GuiMainScreenMessage(Type action, String landName) {
         data.setInteger("MainScreenAction", action.getValue());
         switch(action) {
             case SEND_LAND_NAME: {
@@ -55,7 +42,7 @@ public class GuiMainScreenMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiMainScreenMessage message, MessageContext ctx) {
-            switch(MainScreenAction.fromInteger(message.data.getInteger("MainScreenAction"))) {
+            switch(Type.fromInteger(message.data.getInteger("MainScreenAction"))) {
                 case SEND_LAND_NAME: {
                     AgeOfKingdom.clientProxy.guiMainScreen.updateLandName(message.data.getString("LandName"));
                     break;
@@ -69,4 +56,28 @@ public class GuiMainScreenMessage implements IMessage {
             return null;
         }
     }
+
+    public enum Type {
+
+        SEND_LAND_NAME(0);
+
+        private int value;
+
+        private Type(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+
+        public static Type fromInteger(int x) {
+            switch (x) {
+                case 0:
+                    return SEND_LAND_NAME;
+            }
+            return null;
+        }
+    }
+
 }

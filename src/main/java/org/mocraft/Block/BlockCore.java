@@ -1,10 +1,13 @@
 package org.mocraft.Block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -37,6 +40,11 @@ public class BlockCore extends Block implements ITileEntityProvider {
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         super.breakBlock(world, x, y, z, block, metadata);
+        TileCore tile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(x, y, z);
+        if(tile != null) {
+            tile.dismiss();
+            world.removeTileEntity(x, y, z);
+        }
         world.removeTileEntity(x, y, z);
     }
 
@@ -82,7 +90,9 @@ public class BlockCore extends Block implements ITileEntityProvider {
     }
 
     @Override
+    @SideOnly(Side.SERVER)
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
+
         ProxyServer.removeCorePos(new BlockPos(x, y, z));
         return;
     }

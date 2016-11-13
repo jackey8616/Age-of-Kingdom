@@ -19,14 +19,9 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.GuiMainScreen;
 import org.mocraft.Network.common.GuiChatMessage;
 import org.mocraft.Network.common.GuiMainScreenMessage;
-import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
-import org.mocraft.Utils.BlockPos;
-import org.mocraft.Utils.ChatAction;
-import org.mocraft.Utils.MainScreenAction;
 import org.mocraft.Utils.Util;
 
 /**
@@ -49,7 +44,7 @@ public class EventManager {
         EntityPlayer player = e.player;
         for(Object obj : MinecraftServer.getServer().getEntityWorld().playerEntities) {
             if(((EntityPlayer) obj).getDistanceToEntity(player) <= Util.CHAT_MIN_RANGE && !e.message.contains("achievement")) {
-                AgeOfKingdom.channel.sendTo(new GuiChatMessage(e.message, player.getDisplayName(), ChatAction.TO_CLIENT), (EntityPlayerMP) obj);
+                AgeOfKingdom.channel.sendTo(new GuiChatMessage(e.message, player.getDisplayName(), GuiChatMessage.Type.TO_CLIENT), (EntityPlayerMP) obj);
             }
         }
     }
@@ -119,7 +114,7 @@ public class EventManager {
         if(player.lastTickPosX != player.posX || player.lastTickPosZ != player.posZ) {
             TileCore tile = AgeOfKingdom.serverProxy.getClosestTileCore(player);
             String groundName = tile.getAokName().equals("null") ? "Non" : tile.getAokName();
-            AgeOfKingdom.channel.sendTo(new GuiMainScreenMessage(MainScreenAction.SEND_LAND_NAME, groundName), (EntityPlayerMP) player);
+            AgeOfKingdom.channel.sendTo(new GuiMainScreenMessage(GuiMainScreenMessage.Type.SEND_LAND_NAME, groundName), (EntityPlayerMP) player);
         }
     }
 

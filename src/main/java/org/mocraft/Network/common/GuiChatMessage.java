@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Utils.ChatAction;
 import org.mocraft.Utils.Util;
 
 /**
@@ -23,7 +22,7 @@ public class GuiChatMessage implements IMessage {
 
     public GuiChatMessage() {}
 
-    public GuiChatMessage(String message, ChatAction action) {
+    public GuiChatMessage(String message, Type action) {
         data.setInteger("Action", action.getValue());
         switch(action) {
             case TO_SERVER: {
@@ -33,7 +32,7 @@ public class GuiChatMessage implements IMessage {
         }
     }
 
-    public GuiChatMessage(String message, String speaker, ChatAction action) {
+    public GuiChatMessage(String message, String speaker, Type action) {
         data.setInteger("Action", action.getValue());
         switch(action) {
             case TO_CLIENT: {
@@ -58,7 +57,7 @@ public class GuiChatMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiChatMessage message, MessageContext ctx) {
-            switch (ChatAction.fromInteger(message.data.getInteger("Action"))) {
+            switch (Type.fromInteger(message.data.getInteger("Action"))) {
                 case TO_CLIENT: {
                     String msg = message.data.getString("Speaker") + " : ";
                     msg += message.data.getString("Message");
@@ -71,11 +70,11 @@ public class GuiChatMessage implements IMessage {
 
         @Override
         public IMessage messageFromClient(EntityPlayer player, GuiChatMessage message, MessageContext ctx) {
-            switch(ChatAction.fromInteger(message.data.getInteger("Action"))) {
+            switch(Type.fromInteger(message.data.getInteger("Action"))) {
                 case TO_SERVER: {
                     for(Object obj : MinecraftServer.getServer().getEntityWorld().playerEntities) {
                         if(((EntityPlayer) obj).getDistanceToEntity(player) <= Util.CHAT_MIN_RANGE) {
-                            AgeOfKingdom.channel.sendTo(new GuiChatMessage(message.data.getString("Message"), player.getDisplayName(), ChatAction.TO_CLIENT), (EntityPlayerMP) obj);
+                            AgeOfKingdom.channel.sendTo(new GuiChatMessage(message.data.getString("Message"), player.getDisplayName(), Type.TO_CLIENT), (EntityPlayerMP) obj);
                         }
                     }
                     break;
@@ -84,4 +83,26 @@ public class GuiChatMessage implements IMessage {
             return null;
         }
     }
+
+    public enum Type {
+
+        TO_SERVER(0), TO_CLIENT(1);
+
+        private int value;
+
+        private Type(int value) {
+            this.value = value;
+        }
+
+        public int getValue() { return this.value; }
+
+        public static Type fromInteger(int x) {
+            switch(x) {
+                case 0: return TO_SERVER;
+                case 1: return TO_CLIENT;
+            }
+            return null;
+        }
+    }
+
 }

@@ -31,9 +31,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.mocraft.AgeOfKingdom;
-import org.mocraft.Network.common.GuiChatMessage;
-import org.mocraft.Utils.ChatAction;
 import tv.twitch.chat.ChatUserInfo;
 
 import java.io.File;

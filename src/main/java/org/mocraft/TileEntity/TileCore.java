@@ -4,7 +4,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -15,15 +14,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Entity.EntityQuester;
 import org.mocraft.Network.client.SyncIEEPMessage;
-import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
-import org.mocraft.Utils.CoreAction;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -40,6 +36,7 @@ public class TileCore extends TileEntity {
     private String aokName;
     private int aokLevel;
     private ArrayList<UUID> members = new ArrayList<UUID>();
+    private ArrayList<Integer> entityIds = new ArrayList<Integer>();
 
     public TileCore() {
         this.isUsing = false;
@@ -71,11 +68,18 @@ public class TileCore extends TileEntity {
                 AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(p), (EntityPlayerMP) p);
             }
         }
+        for(int i : entityIds) {
+            MinecraftServer.getServer().getEntityWorld().getEntityByID(i).setDead();
+        }
+        ProxyServer.removeCorePos(new BlockPos(xCoord, yCoord, zCoord));
+        MinecraftServer.getServer().getEntityWorld().removeTileEntity(xCoord, yCoord, zCoord);
+        MinecraftServer.getServer().getEntityWorld().setBlockToAir(xCoord, yCoord, zCoord);
     }
 
     @SideOnly(Side.SERVER)
     public void spawnNPC(World world) {
         EntityQuester entity = new EntityQuester(world);
+        addEntityId(entity.getEntityId());
         entity.setLocationAndAngles(xCoord, yCoord + 2, zCoord, MathHelper.wrapAngleTo180_float(world.rand.nextFloat()) * 360.0F, 0.0F);
         world.spawnEntityInWorld(entity);
     }
@@ -198,6 +202,19 @@ public class TileCore extends TileEntity {
     public void removeMember(UUID player) {
         if(members.contains(player)) {
             members.remove(player);
+        }
+    }
+
+    public void addEntityId(int entityId) {
+        for(int i : entityIds) {
+            if(i == entityId) { return; }
+        }
+        entityIds.add(entityId);
+    }
+
+    public void removeEntityId(int entityId) {
+        if(entityIds.contains(entityId)) {
+            entityIds.remove(entityId);
         }
     }
 

@@ -11,10 +11,8 @@ import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
 import org.mocraft.Common.ClientAok;
 import org.mocraft.Network.client.SyncIEEPMessage;
-import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
-import org.mocraft.Utils.CoreAction;
 
 /**
  * Created by Clode on 2016/10/24.
@@ -25,7 +23,7 @@ public class GuiCoreMessage implements IMessage {
 
     public GuiCoreMessage() {}
 
-    public GuiCoreMessage(EntityPlayer player, CoreAction action) {
+    public GuiCoreMessage(EntityPlayer player, Type action) {
         data.setInteger("Action", action.getValue());
         switch(action) {
             case REQUEST_DISMISS: break;
@@ -52,15 +50,12 @@ public class GuiCoreMessage implements IMessage {
 
         @Override
         public IMessage messageFromClient(EntityPlayer player, GuiCoreMessage message, MessageContext ctx) {
-            switch(CoreAction.fromInteger(message.data.getInteger("Action"))) {
+            switch(Type.fromInteger(message.data.getInteger("Action"))) {
                 case REQUEST_DISMISS: {
                     BlockPos landPos = ClientAok.get(player).getLandPos();
                     TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                     core.dismiss();
-                    ProxyServer.removeCorePos(landPos);
                     player.closeScreen();
-                    MinecraftServer.getServer().getEntityWorld().removeTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
-                    MinecraftServer.getServer().getEntityWorld().setBlockToAir(landPos.getX(), landPos.getY(), landPos.getZ());
                     break;
                 }
                 case SEND_QUIT: {
@@ -78,4 +73,26 @@ public class GuiCoreMessage implements IMessage {
             return null;
         }
     }
+
+    public enum Type {
+
+        REQUEST_DISMISS(0), SEND_QUIT(1);
+
+        private int value;
+
+        private Type(int value) {
+            this.value = value;
+        }
+
+        public int getValue() { return this.value; }
+
+        public static Type fromInteger(int x) {
+            switch(x) {
+                case 0: return REQUEST_DISMISS;
+                case 1: return SEND_QUIT;
+            }
+            return null;
+        }
+    }
+
 }
