@@ -1,4 +1,4 @@
-package org.mocraft.Renderer;
+package org.mocraft.Client.Renderer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
-import org.mocraft.Model.ModelItemOperator;
+import org.mocraft.Client.Model.ModelItemOperator;
 
 /**
  * Created by Clode on 2016/10/29.

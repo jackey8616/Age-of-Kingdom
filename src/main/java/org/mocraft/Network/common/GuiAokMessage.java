@@ -11,11 +11,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.NetworkManager;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -30,7 +30,7 @@ public class GuiAokMessage implements IMessage {
     public GuiAokMessage() {  }
 
     public GuiAokMessage(EntityPlayer player) {
-        PacketManager.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
+        NetworkManager.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
     }
 
     public GuiAokMessage(EntityPlayer player, BlockPos blockPos) {
@@ -63,7 +63,7 @@ public class GuiAokMessage implements IMessage {
 
         @Override
         public IMessage messageFromServer(EntityPlayer player, GuiAokMessage message, MessageContext ctx) {
-            ClientAok clientAok = ClientAok.get(player);
+            PlayerAokIEEP clientAok = PlayerAokIEEP.get(player);
             clientAok.loadNBTData(message.data);
 
             player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_AOK, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
@@ -72,11 +72,11 @@ public class GuiAokMessage implements IMessage {
 
         @Override
         public IMessage messageFromClient(EntityPlayer player, GuiAokMessage message, MessageContext ctx) {
-            ClientAok aok = ClientAok.get(player);
+            PlayerAokIEEP aok = PlayerAokIEEP.get(player);
             if(aok.getAokName().equals("null")) {
-                PacketManager.sendTo(new GuiAokMessage(player), (EntityPlayerMP) player);
+                NetworkManager.sendTo(new GuiAokMessage(player), (EntityPlayerMP) player);
             } else {
-                PacketManager.sendTo(new GuiAokMessage(player, aok.getLandPos()), (EntityPlayerMP) player);
+                NetworkManager.sendTo(new GuiAokMessage(player, aok.getLandPos()), (EntityPlayerMP) player);
             }
             return null;
         }

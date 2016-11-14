@@ -7,23 +7,23 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import org.mocraft.Common.ClientAok;
+import org.mocraft.Client.Gui.*;
+import org.mocraft.Client.Gui.vanilla.GuiAokChat;
 import org.mocraft.Common.EventManager;
-import org.mocraft.Entity.EntityQuester;
-import org.mocraft.Gui.*;
-import org.mocraft.Gui.vanilla.GuiAokChat;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 import org.mocraft.Utils.Util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Clode on 2016/10/10.
@@ -113,7 +113,7 @@ public class ProxyServer implements IGuiHandler {
             case GUI_CORE :
             case GUI_CORE_NO_CREATED : return new ContainerCore((TileCore) world.getTileEntity(x, y, z));
             case GUI_MEMBER : {
-                BlockPos pos = ClientAok.get(player).getLandPos();
+                BlockPos pos = PlayerAokIEEP.get(player).getLandPos();
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
                 return new ContainerCore(tile);
             }
@@ -132,7 +132,7 @@ public class ProxyServer implements IGuiHandler {
             case GUI_CORE : return new GuiCore(((TileCore)world.getTileEntity(x, y, z)), player);
             case GUI_CORE_NO_CREATED : return new GuiCoreNoCreated((TileCore) world.getTileEntity(x, y, z), player);
             case GUI_MEMBER : {
-                BlockPos pos = ClientAok.get(player).getLandPos();
+                BlockPos pos = PlayerAokIEEP.get(player).getLandPos();
                 TileCore tile = (TileCore) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
                 return new GuiMember(tile, player);
             }

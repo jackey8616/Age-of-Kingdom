@@ -1,11 +1,11 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.vanilla.GuiAokButton;
-import org.mocraft.Gui.vanilla.GuiAokScreen;
+import org.mocraft.Client.Gui.vanilla.GuiAokButton;
+import org.mocraft.Client.Gui.vanilla.GuiAokScreen;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.Utils.BlockPos;
 

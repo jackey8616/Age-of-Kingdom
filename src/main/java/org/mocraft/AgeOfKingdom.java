@@ -9,13 +9,14 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import org.mocraft.Block.BlockGenerator;
 import org.mocraft.Block.BlockManager;
-import org.mocraft.Common.BlockGenerator;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Common.EntityManager;
 import org.mocraft.Common.EventManager;
+import org.mocraft.Common.QuestManager;
+import org.mocraft.Entity.EntityManager;
 import org.mocraft.Item.ItemManager;
-import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.NetworkManager;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 @Mod(modid = AgeOfKingdom.MODID, name = AgeOfKingdom.NAME, version = AgeOfKingdom.VERSION)
 public class AgeOfKingdom  {
@@ -34,10 +35,11 @@ public class AgeOfKingdom  {
 
     public static BlockManager blockManager = new BlockManager();
     public static ItemManager itemManager = new ItemManager();
-    public static PacketManager packetManager = new PacketManager();
+    public static NetworkManager packetManager = new NetworkManager();
     public static BlockGenerator blockGenerator = new BlockGenerator();
     public static EventManager eventManager = new EventManager();
     public static EntityManager entityManager = new EntityManager();
+    public static QuestManager questManager = new QuestManager();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -58,7 +60,8 @@ public class AgeOfKingdom  {
         itemManager.init(event);
         eventManager.init(event);
         entityManager.init(event);
-        ClientAok.init();
+        questManager.init(event);
+        PlayerAokIEEP.init();
     }
 
     @EventHandler

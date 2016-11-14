@@ -1,12 +1,12 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Gui.vanilla.GuiAokScreen;
+import org.mocraft.Client.Gui.vanilla.GuiAokScreen;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 /**
  * Created by Clode on 2016/10/12.
@@ -15,11 +15,11 @@ import org.mocraft.Utils.BlockPos;
 public class GuiAok extends GuiAokScreen {
 
     private EntityPlayer player;
-    private ClientAok ieep;
+    private PlayerAokIEEP ieep;
 
     public GuiAok(EntityPlayer player) {
         this.player = player;
-        this.ieep = ClientAok.get(player);
+        this.ieep = PlayerAokIEEP.get(player);
     }
 
     @Override

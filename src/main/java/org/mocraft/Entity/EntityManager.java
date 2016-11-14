@@ -1,13 +1,12 @@
-package org.mocraft.Common;
+package org.mocraft.Entity;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import org.mocraft.Entity.EntityQuester;
-import org.mocraft.Model.ModelQuester;
-import org.mocraft.Renderer.RendererEntity;
+import org.mocraft.Client.Model.ModelQuester;
+import org.mocraft.Client.Renderer.RendererEntity;
 
 /**
  * Created by Clode on 2016/11/11.

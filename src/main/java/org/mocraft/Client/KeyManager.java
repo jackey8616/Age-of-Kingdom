@@ -1,4 +1,4 @@
-package org.mocraft.Common;
+package org.mocraft.Client;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -9,12 +9,11 @@ import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.NetworkManager;
 import org.mocraft.Network.common.GuiAokMessage;
 
 /**
@@ -40,7 +39,7 @@ public class KeyManager {
         World world = mc.theWorld;
         EntityPlayer player = mc.thePlayer;
         if(keys[0].isPressed()) {
-            PacketManager.sendToServer(new GuiAokMessage());
+            NetworkManager.sendToServer(new GuiAokMessage());
         }
         if(mc.gameSettings.keyBindChat.isPressed()) {
             player.closeScreen();

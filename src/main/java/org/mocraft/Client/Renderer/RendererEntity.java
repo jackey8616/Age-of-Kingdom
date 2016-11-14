@@ -1,4 +1,4 @@
-package org.mocraft.Renderer;
+package org.mocraft.Client.Renderer;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;

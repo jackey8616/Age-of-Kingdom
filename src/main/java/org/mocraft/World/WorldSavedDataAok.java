@@ -1,4 +1,4 @@
-package org.mocraft.Common;
+package org.mocraft.World;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,21 +13,21 @@ import org.mocraft.Utils.Util;
 /**
  * Created by Clode on 2016/10/24.
  */
-public class ServerDataStorage extends WorldSavedData {
+public class WorldSavedDataAok extends WorldSavedData {
 
-    public ServerDataStorage() {
+    public WorldSavedDataAok() {
         super(AgeOfKingdom.MODID);
     }
 
-    public ServerDataStorage(String ID) {
+    public WorldSavedDataAok(String ID) {
         super(ID);
     }
 
-    public static ServerDataStorage get(World world) {
+    public static WorldSavedDataAok get(World world) {
         MapStorage storage = world.mapStorage;
-        ServerDataStorage data = (ServerDataStorage) storage.loadData(ServerDataStorage.class, AgeOfKingdom.MODID);
+        WorldSavedDataAok data = (WorldSavedDataAok) storage.loadData(WorldSavedDataAok.class, AgeOfKingdom.MODID);
         if(data == null) {
-            storage.setData(AgeOfKingdom.MODID, data = new ServerDataStorage());
+            storage.setData(AgeOfKingdom.MODID, data = new WorldSavedDataAok());
             data.markDirty();
         }
         return data;

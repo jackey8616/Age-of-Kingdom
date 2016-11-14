@@ -1,4 +1,4 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -7,11 +7,11 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.vanilla.GuiAokButton;
-import org.mocraft.Gui.vanilla.GuiAokContainer;
+import org.mocraft.Client.Gui.vanilla.GuiAokButton;
+import org.mocraft.Client.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
-import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Network.server.CoreCreateMessage;
+import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
 import org.mocraft.Utils.Util;
 

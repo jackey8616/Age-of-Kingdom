@@ -1,4 +1,4 @@
-package org.mocraft.Gui.vanilla;
+package org.mocraft.Client.Gui.vanilla;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

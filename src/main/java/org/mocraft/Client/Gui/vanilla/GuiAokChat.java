@@ -1,4 +1,4 @@
-package org.mocraft.Gui.vanilla;
+package org.mocraft.Client.Gui.vanilla;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

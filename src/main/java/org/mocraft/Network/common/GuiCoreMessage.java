@@ -9,10 +9,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 /**
  * Created by Clode on 2016/10/24.
@@ -52,14 +52,14 @@ public class GuiCoreMessage implements IMessage {
         public IMessage messageFromClient(EntityPlayer player, GuiCoreMessage message, MessageContext ctx) {
             switch(Type.fromInteger(message.data.getInteger("Action"))) {
                 case REQUEST_DISMISS: {
-                    BlockPos landPos = ClientAok.get(player).getLandPos();
+                    BlockPos landPos = PlayerAokIEEP.get(player).getLandPos();
                     TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                     core.dismiss();
                     player.closeScreen();
                     break;
                 }
                 case SEND_QUIT: {
-                    ClientAok clientAok = ClientAok.get(player);
+                    PlayerAokIEEP clientAok = PlayerAokIEEP.get(player);
                     BlockPos landPos = clientAok.getLandPos();
                     TileCore core = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                     core.removeMember(player.getUniqueID());

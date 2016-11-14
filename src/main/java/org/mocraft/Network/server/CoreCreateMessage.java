@@ -7,11 +7,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.NetworkManager;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 import org.mocraft.Utils.Util;
 
 import java.util.UUID;
@@ -46,12 +46,12 @@ public class CoreCreateMessage implements IMessage {
             core.setAokName(message.data.getString("AokName"));
             core.setLord(UUID.fromString(message.data.getString("Lord")));
             core.addMember(core.getLord());
-            core.insertToClientAok(ClientAok.get(player));
+            core.insertToClientAok(PlayerAokIEEP.get(player));
             core.spawnNPC(MinecraftServer.getServer().getEntityWorld());
             player.closeScreen();
             player.experienceLevel -= Util.CREATE_AOK_MIN_LEVEL;
 
-            PacketManager.sendTo(new SyncIEEPMessage(player), player);
+            NetworkManager.sendTo(new SyncIEEPMessage(player), player);
             return null;
         }
 

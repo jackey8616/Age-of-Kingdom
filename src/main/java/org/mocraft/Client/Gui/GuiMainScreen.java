@@ -1,4 +1,4 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -9,7 +9,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
-import org.mocraft.Gui.vanilla.GuiAokScreen;
+import org.mocraft.Client.Gui.vanilla.GuiAokScreen;
 
 /**
  * Created by Clode on 2016/11/8.

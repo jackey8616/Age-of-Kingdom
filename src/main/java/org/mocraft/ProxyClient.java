@@ -6,9 +6,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import org.mocraft.Common.EntityManager;
-import org.mocraft.Common.KeyManager;
-import org.mocraft.Gui.GuiMainScreen;
+import org.mocraft.Client.Gui.GuiMainScreen;
+import org.mocraft.Client.KeyManager;
+import org.mocraft.Entity.EntityManager;
 import org.mocraft.Item.ItemManager;
 
 import java.util.UUID;

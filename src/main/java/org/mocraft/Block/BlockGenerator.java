@@ -1,16 +1,14 @@
-package org.mocraft.Common;
+package org.mocraft.Block;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import org.mocraft.Block.BlockManager;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
 import org.mocraft.Utils.Util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**

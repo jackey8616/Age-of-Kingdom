@@ -1,11 +1,11 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.StatCollector;
-import org.mocraft.Gui.vanilla.GuiAokButton;
-import org.mocraft.Gui.vanilla.GuiAokScreen;
+import org.mocraft.Client.Gui.vanilla.GuiAokButton;
+import org.mocraft.Client.Gui.vanilla.GuiAokScreen;
 
 /**
  * Created by Clode on 2016/10/27.

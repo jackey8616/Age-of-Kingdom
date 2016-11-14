@@ -1,4 +1,4 @@
-package org.mocraft.Gui;
+package org.mocraft.Client.Gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -6,14 +6,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Gui.vanilla.GuiAokButton;
-import org.mocraft.Gui.vanilla.GuiAokContainer;
+import org.mocraft.Client.Gui.vanilla.GuiAokButton;
+import org.mocraft.Client.Gui.vanilla.GuiAokContainer;
 import org.mocraft.Inventory.ContainerCore;
 import org.mocraft.Network.common.GuiCoreMessage;
 import org.mocraft.Network.common.GuiMemberMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 /**
  * Created by Clode on 2016/10/11.
@@ -23,14 +23,14 @@ public class GuiCore extends GuiAokContainer {
 
     private int btnId = 0;
 
-    private ClientAok clientAok;
+    private PlayerAokIEEP clientAok;
     private EntityPlayer player;
     private GuiAokButton btnMember, btnDismiss, btnQuit;
 
     public GuiCore(TileCore tile, EntityPlayer player) {
         super(new ContainerCore(tile));
         this.player = player;
-        this.clientAok = ClientAok.get(player);
+        this.clientAok = PlayerAokIEEP.get(player);
     }
 
     @Override

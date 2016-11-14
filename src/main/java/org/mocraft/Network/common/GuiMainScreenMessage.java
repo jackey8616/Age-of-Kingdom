@@ -7,7 +7,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.GuiMainScreen;
 
 /**
  * Created by Clode on 2016/10/19.

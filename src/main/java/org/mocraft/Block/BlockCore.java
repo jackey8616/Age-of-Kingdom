@@ -9,14 +9,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
 import org.mocraft.ProxyServer;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 /**
  * Created by Clode on 2016/10/10.
@@ -67,7 +66,7 @@ public class BlockCore extends Block implements ITileEntityProvider {
                 //player.addChatComponentMessage(new ChatComponentText("You are not belong this AoK!"));
                 player.addChatComponentMessage(new ChatComponentTranslation("You are not belong this AoK!"));
                 return false;
-            } else if(!ClientAok.get(player).getAokName().equals("null") && !ClientAok.get(player).getAokName().equals(tile.getAokName())) {
+            } else if(!PlayerAokIEEP.get(player).getAokName().equals("null") && !PlayerAokIEEP.get(player).getAokName().equals(tile.getAokName())) {
                 //player.addChatComponentMessage(new ChatComponentText("You already have a AoK!"));
                 player.addChatComponentMessage(new ChatComponentTranslation("You already have a AoK!"));
                 return false;

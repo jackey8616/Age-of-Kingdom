@@ -8,15 +8,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Gui.GuiMainScreen;
-import org.mocraft.Network.common.*;
 import org.mocraft.Network.client.SyncIEEPMessage;
+import org.mocraft.Network.common.*;
 import org.mocraft.Network.server.CoreCreateMessage;
 
 /**
  * Created by Clode on 2016/10/11.
  */
-public class PacketManager {
+public class NetworkManager {
 
     private static byte packetId = 0;
 

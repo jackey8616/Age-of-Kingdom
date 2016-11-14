@@ -11,12 +11,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
-import org.mocraft.Gui.GuiInvitation;
-import org.mocraft.Gui.GuiMember;
+import org.mocraft.Client.Gui.GuiInvitation;
+import org.mocraft.Client.Gui.GuiMember;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.TileEntity.TileCore;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class GuiMemberMessage implements IMessage {
         data.setInteger("MemberAction", memberAction.getValue());
         switch(memberAction) {
             case SEND_MEMBER: {
-                BlockPos landPos = ClientAok.get(player).getLandPos();
+                BlockPos landPos = PlayerAokIEEP.get(player).getLandPos();
                 ArrayList<String> membersName = ((TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ())).toStringArrayList();
                 NBTTagList list = new NBTTagList();
                 for (String member : membersName) {
@@ -47,7 +47,7 @@ public class GuiMemberMessage implements IMessage {
             case INVITE_MEMBER: data.setString("InvitationTo", name); break;
             case INVITATION_FROM: {
                 EntityPlayer inviter = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(name);
-                BlockPos landPos = ClientAok.get(inviter).getLandPos();
+                BlockPos landPos = PlayerAokIEEP.get(inviter).getLandPos();
                 TileCore tile = (TileCore) inviter.getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                 data.setString("AokName", tile.getAokName());
                 data.setInteger("AokLevel", tile.getAokLevel());
@@ -80,7 +80,7 @@ public class GuiMemberMessage implements IMessage {
         public IMessage messageFromServer(EntityPlayer player, GuiMemberMessage message, MessageContext ctx) {
             switch(Type.fromInteger(message.data.getInteger("MemberAction"))) {
                 case SEND_MEMBER: {
-                    ClientAok clientAok = ClientAok.get(player);
+                    PlayerAokIEEP clientAok = PlayerAokIEEP.get(player);
                     NBTTagList list = (NBTTagList) message.data.getTag("Members");
                     for (int i = 0; i < list.tagCount(); ++i) {
                         clientAok.addMember(list.getStringTagAt(i));
@@ -110,7 +110,7 @@ public class GuiMemberMessage implements IMessage {
                     break;
                 case RECIEVED_MEMBER: {
                     player.openGui(AgeOfKingdom.INSTANCE, AgeOfKingdom.serverProxy.GUI_MEMBER, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-                    BlockPos landPos = ClientAok.get(player).getLandPos();
+                    BlockPos landPos = PlayerAokIEEP.get(player).getLandPos();
                     TileCore tile = (TileCore) player.getEntityWorld().getTileEntity(landPos.getX(), landPos.getY(), landPos.getZ());
                     tile.setUsing(true);
                     break;
@@ -124,7 +124,7 @@ public class GuiMemberMessage implements IMessage {
                     }
                     break;
                 case PLAYER_ACCEPT: {
-                    ClientAok clientInviter = ClientAok.get(MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.data.getString("ReplyTo")));
+                    PlayerAokIEEP clientInviter = PlayerAokIEEP.get(MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(message.data.getString("ReplyTo")));
                     TileCore tile = (TileCore) MinecraftServer.getServer().getEntityWorld().getTileEntity(clientInviter.getLandPos().getX(), clientInviter.getLandPos().getY(), clientInviter.getLandPos().getZ());
                     tile.addMember(player.getPersistentID());
                     tile.syncToAll();
@@ -139,11 +139,11 @@ public class GuiMemberMessage implements IMessage {
                     if (beenKicker == null) {
                         AgeOfKingdom.channel.sendTo(new GuiMemberMessage(player, null, Type.PLAYER_OFFLINE), (EntityPlayerMP) player);
                     } else {
-                        ClientAok clientKicker = ClientAok.get(player);
+                        PlayerAokIEEP clientKicker = PlayerAokIEEP.get(player);
                         TileCore tile = (TileCore) player.getEntityWorld().getTileEntity(clientKicker.getLandPos().getX(), clientKicker.getLandPos().getY(), clientKicker.getLandPos().getZ());
                         tile.removeMember(beenKicker.getPersistentID());
                         tile.syncToAll();
-                        ClientAok.get(beenKicker).clearAok();
+                        PlayerAokIEEP.get(beenKicker).clearAok();
 
                         AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(beenKicker), (EntityPlayerMP) beenKicker);
                     }

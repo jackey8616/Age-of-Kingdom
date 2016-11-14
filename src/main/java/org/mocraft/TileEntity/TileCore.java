@@ -15,11 +15,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Common.ClientAok;
 import org.mocraft.Entity.EntityQuester;
 import org.mocraft.Network.client.SyncIEEPMessage;
 import org.mocraft.ProxyServer;
 import org.mocraft.Utils.BlockPos;
+import org.mocraft.Utils.PlayerAokIEEP;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -52,7 +52,7 @@ public class TileCore extends TileEntity {
         for(UUID member : members) {
             EntityPlayer player = AgeOfKingdom.serverProxy.getPlayerByUuid(member);
             if(player != null) {
-                this.insertToClientAok(ClientAok.get(player));
+                this.insertToClientAok(PlayerAokIEEP.get(player));
                 AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(player), (EntityPlayerMP) player);
             }
         }
@@ -63,7 +63,7 @@ public class TileCore extends TileEntity {
         for(UUID uuid : this.members) {
             EntityPlayer p = AgeOfKingdom.serverProxy.getPlayerByUuid(uuid);
             if(p != null) {
-                ClientAok clientAok = ClientAok.get(p);
+                PlayerAokIEEP clientAok = PlayerAokIEEP.get(p);
                 clientAok.clearAok();
                 AgeOfKingdom.channel.sendTo(new SyncIEEPMessage(p), (EntityPlayerMP) p);
             }
@@ -92,7 +92,7 @@ public class TileCore extends TileEntity {
     }
 
     @SideOnly(Side.SERVER)
-    public void insertToClientAok(ClientAok clientAok) {
+    public void insertToClientAok(PlayerAokIEEP clientAok) {
         clientAok.setLandPos(new BlockPos(xCoord, yCoord, zCoord));
         clientAok.setLordName(getLordName());
         clientAok.setLordLevel(this.lordLevel);

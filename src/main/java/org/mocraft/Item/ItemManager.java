@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
-import org.mocraft.Renderer.RendererItemOperator;
+import org.mocraft.Client.Renderer.RendererItemOperator;
 
 /**
  * Created by Clode on 2016/10/29.

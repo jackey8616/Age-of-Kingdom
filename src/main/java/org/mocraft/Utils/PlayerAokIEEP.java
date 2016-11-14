@@ -1,4 +1,4 @@
-package org.mocraft.Common;
+package org.mocraft.Utils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -16,16 +16,15 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.mocraft.AgeOfKingdom;
-import org.mocraft.Network.PacketManager;
+import org.mocraft.Network.NetworkManager;
 import org.mocraft.Network.client.SyncIEEPMessage;
-import org.mocraft.Utils.BlockPos;
 
 import java.util.ArrayList;
 
 /**
  * Created by Clode on 2016/10/11.
  */
-public class ClientAok implements IExtendedEntityProperties {
+public class PlayerAokIEEP implements IExtendedEntityProperties {
 
     public static final String PROP_NAME = AgeOfKingdom.MODID + "_ExtendedProperties";
 
@@ -39,11 +38,11 @@ public class ClientAok implements IExtendedEntityProperties {
     private int aokLevel = 0;
     private ArrayList<String> members = new ArrayList<String>();
 
-    public ClientAok(EntityPlayer player) {
+    public PlayerAokIEEP(EntityPlayer player) {
         this.player = player;
     }
 
-    public ClientAok(NBTTagCompound compound, EntityPlayer player) {
+    public PlayerAokIEEP(NBTTagCompound compound, EntityPlayer player) {
         this.player = player;
         loadNBTData(compound);
     }
@@ -54,13 +53,13 @@ public class ClientAok implements IExtendedEntityProperties {
         FMLCommonHandler.instance().bus().register(h);
     }
 
-    public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new ClientAok(player)); }
+    public static final void register(EntityPlayer player) { player.registerExtendedProperties(PROP_NAME, new PlayerAokIEEP(player)); }
 
-    public static final ClientAok get(EntityPlayer player) {
+    public static final PlayerAokIEEP get(EntityPlayer player) {
         if(player.getExtendedProperties(PROP_NAME) == null) {
-            player.registerExtendedProperties(PROP_NAME, new ClientAok(player));
+            player.registerExtendedProperties(PROP_NAME, new PlayerAokIEEP(player));
         }
-        return (ClientAok) player.getExtendedProperties(PROP_NAME);
+        return (PlayerAokIEEP) player.getExtendedProperties(PROP_NAME);
     }
 
     public void clearAok() {
@@ -158,9 +157,9 @@ public class ClientAok implements IExtendedEntityProperties {
         public void onEntityJoinEvent(EntityJoinWorldEvent e) {
             if(e.entity instanceof EntityPlayer && !e.entity.worldObj.isRemote) {
                 if(AgeOfKingdom.serverProxy.getPlayerClientCore((EntityPlayer) e.entity) != null) {
-                    ((ClientAok)e.entity.getExtendedProperties(ClientAok.PROP_NAME)).loadNBTData(AgeOfKingdom.serverProxy.getPlayerClientCore((EntityPlayer) e.entity));
+                    ((PlayerAokIEEP)e.entity.getExtendedProperties(PlayerAokIEEP.PROP_NAME)).loadNBTData(AgeOfKingdom.serverProxy.getPlayerClientCore((EntityPlayer) e.entity));
                 }
-                PacketManager.sendTo(new SyncIEEPMessage((EntityPlayer)e.entity), (EntityPlayerMP) e.entity);
+                NetworkManager.sendTo(new SyncIEEPMessage((EntityPlayer)e.entity), (EntityPlayerMP) e.entity);
             }
         }
 
@@ -168,7 +167,7 @@ public class ClientAok implements IExtendedEntityProperties {
         public void onLivingDeath(LivingDeathEvent e) {
             if(e.entity instanceof EntityPlayer) {
                 NBTTagCompound compound = new NBTTagCompound();
-                ((ClientAok) e.entity.getExtendedProperties(ClientAok.PROP_NAME)).saveNBTData(compound);
+                ((PlayerAokIEEP) e.entity.getExtendedProperties(PlayerAokIEEP.PROP_NAME)).saveNBTData(compound);
                 AgeOfKingdom.serverProxy.setPlayerClientCore(((EntityPlayer)e.entity).getUniqueID(), compound);
             }
         }
